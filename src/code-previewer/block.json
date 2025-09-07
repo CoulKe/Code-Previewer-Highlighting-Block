@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "luteya/code-previewer",
+	"version": "0.1.0",
+	"title": "Code Previewer",
+	"category": "widgets",
+	"icon": "editor-code",
+	"description": "A code previewer with syntax highlighting using CodeMirror.",
+	"example": {},
+	"attributes": {
+		"code": {
+			"type": "string",
+			"default": ""
+		},
+		"language": {
+			"type": "string",
+			"default": "javascript"
+		},
+		"showLineNumbers": {
+			"type": "boolean",
+			"default": true
+		},
+		"readOnly": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "code-previewer",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}

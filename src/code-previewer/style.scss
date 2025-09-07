@@ -1,0 +1,255 @@
+/**
+ * Frontend and editor styles for Code Previewer block
+ */
+
+.wp-block-luteya-code-previewer {
+	margin: 1.5em 0;
+	
+	.code-previewer-wrapper {
+		border: 1px solid #ddd;
+		border-radius: 6px;
+		overflow: hidden;
+		background: #fff;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+		
+		.code-previewer-header {
+			background: #f8f9fa;
+			padding: 8px 12px;
+			border-bottom: 1px solid #e9ecef;
+			font-size: 12px;
+			font-weight: 600;
+			color: #495057;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			
+			.code-previewer-language {
+				display: inline-block;
+				background: #007cba;
+				color: white;
+				padding: 2px 8px;
+				border-radius: 3px;
+				font-size: 11px;
+				font-weight: 600;
+				text-transform: uppercase;
+			}
+			
+			.copy-code-button {
+				background: #007cba;
+				color: white;
+				border: none;
+				padding: 4px 8px;
+				border-radius: 3px;
+				font-size: 11px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.2s ease;
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				
+				&:hover {
+					background: #005a8b;
+					transform: translateY(-1px);
+				}
+				
+				&:active {
+					transform: translateY(0);
+				}
+				
+				&:focus {
+					outline: 2px solid #007cba;
+					outline-offset: 2px;
+				}
+			}
+		}
+		
+		.code-previewer-content {
+			margin: 0;
+			background: #fff;
+			
+			code {
+				display: block;
+				padding: 16px;
+				font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+				font-size: 14px;
+				line-height: 1.5;
+				color: #333;
+				white-space: pre-wrap;
+				overflow-x: auto;
+			}
+		}
+		
+		.code-previewer-editor {
+			.cm-editor {
+				font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+				font-size: 14px;
+				line-height: 1.5;
+				border: none;
+				border-radius: 0;
+				
+				&.cm-focused {
+					outline: none;
+				}
+			}
+			
+			.cm-content {
+				padding: 16px;
+				min-height: 200px;
+			}
+			
+			.cm-line {
+				padding: 0 4px;
+			}
+			
+			.cm-gutters {
+				border-right: 1px solid #e9ecef;
+				background: #f8f9fa;
+			}
+			
+			.cm-lineNumbers {
+				color: #6c757d;
+				font-size: 12px;
+			}
+			
+			.cm-scroller {
+				overflow: auto;
+			}
+		}
+		
+		// File tabs for multi-file support
+		.frontend-file-tabs {
+			background: #f8f9fa;
+			border-bottom: 1px solid #e9ecef;
+			padding: 8px 12px;
+			display: flex;
+			gap: 8px;
+			flex-wrap: wrap;
+			
+			.frontend-tab-wrapper {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				background: #fff;
+				border: 1px solid #dee2e6;
+				border-radius: 4px;
+				overflow: hidden;
+				
+				&:has(.frontend-file-tab.active) {
+					border-color: #007cba;
+					box-shadow: 0 0 0 1px #007cba;
+				}
+				
+				.frontend-file-tab {
+					background: none;
+					border: none;
+					padding: 6px 8px;
+					font-size: 12px;
+					font-weight: 500;
+					color: #495057;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					
+					&:hover {
+						background: #f8f9fa;
+					}
+					
+					&.active {
+						background: #007cba;
+						color: white;
+						font-weight: 600;
+					}
+					
+					&:focus {
+						outline: 2px solid #007cba;
+						outline-offset: -2px;
+					}
+				}
+				
+				.copy-code-button {
+					background: #6c757d;
+					color: white;
+					border: none;
+					border-left: 1px solid #dee2e6;
+					padding: 6px 8px;
+					font-size: 12px;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					
+					&:hover {
+						background: #495057;
+					}
+					
+					&:focus {
+						outline: 2px solid #007cba;
+						outline-offset: -2px;
+					}
+				}
+			}
+		}
+		
+		// File content visibility
+		.file-content {
+			&.hidden {
+				display: none;
+			}
+			
+			&.active {
+				display: block;
+			}
+		}
+		
+	}
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+	.wp-block-luteya-code-previewer {
+		.code-previewer-wrapper {
+			.code-previewer-header {
+				padding: 6px 8px;
+				flex-direction: column;
+				gap: 8px;
+				align-items: flex-start;
+				
+				.copy-code-button {
+					align-self: flex-end;
+					font-size: 10px;
+					padding: 3px 6px;
+				}
+			}
+			
+			.frontend-file-tabs {
+				padding: 6px 8px;
+				gap: 4px;
+				
+				.frontend-tab-wrapper {
+					.frontend-file-tab {
+						padding: 4px 6px;
+						font-size: 11px;
+					}
+					
+					.copy-code-button {
+						padding: 4px 6px;
+						font-size: 10px;
+					}
+				}
+			}
+			
+			.code-previewer-editor {
+				.cm-content {
+					padding: 12px;
+				}
+				
+				.cm-editor {
+					font-size: 13px;
+				}
+			}
+			
+			.code-previewer-content code {
+				padding: 12px;
+				font-size: 13px;
+			}
+		}
+	}
+}

@@ -1,0 +1,66 @@
+/**
+ * Editor styles for Code Previewer block
+ */
+
+.code-previewer-block {
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 16px;
+	background: #fff;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	
+	.code-previewer-wrapper {
+		border: 1px solid #ddd;
+		border-radius: 6px;
+		overflow: hidden;
+		background: #fff;
+		
+		.code-previewer-header {
+			background: #f8f9fa;
+			padding: 8px 12px;
+			border-bottom: 1px solid #e9ecef;
+			font-size: 12px;
+			font-weight: 600;
+			color: #495057;
+			
+			h4 {
+				margin: 0;
+				font-size: 14px;
+				font-weight: 600;
+				color: #495057;
+			}
+		}
+		
+		.code-previewer-editor {
+			.cm-editor {
+				font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+				font-size: 14px;
+				line-height: 1.5;
+				
+				&.cm-focused {
+					outline: none;
+				}
+			}
+			
+			.cm-content {
+				padding: 12px;
+				min-height: 200px;
+			}
+			
+			.cm-line {
+				padding: 0 4px;
+			}
+			
+			.cm-gutters {
+				border-right: 1px solid #e9ecef;
+				background: #f8f9fa;
+			}
+			
+			.cm-lineNumbers {
+				color: #6c757d;
+				font-size: 12px;
+			}
+		}
+	}
+}
+
