@@ -102,16 +102,6 @@
 				padding: 0 4px;
 			}
 			
-			.cm-gutters {
-				border-right: 1px solid #e9ecef;
-				background: #f8f9fa;
-			}
-			
-			.cm-lineNumbers {
-				color: #6c757d;
-				font-size: 12px;
-			}
-			
 			.cm-scroller {
 				overflow: auto;
 			}
@@ -125,6 +115,7 @@
 			display: flex;
 			gap: 8px;
 			flex-wrap: wrap;
+			align-items: center;
 			
 			.frontend-tab-wrapper {
 				display: flex;
@@ -198,6 +189,44 @@
 				display: block;
 			}
 		}
+		
+		// Theme toggle styles
+		.frontend-theme-toggle {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			margin-left: auto;
+			padding: 4px 8px;
+			background: white;
+			border: 1px solid #dee2e6;
+			border-radius: 4px;
+			
+			.theme-label {
+				font-size: 12px;
+				font-weight: 600;
+				color: #495057;
+			}
+			
+			.theme-select {
+				background: none;
+				border: none;
+				font-size: 12px;
+				color: #495057;
+				cursor: pointer;
+				padding: 2px 4px;
+				
+				&:focus {
+					outline: 2px solid #007cba;
+					outline-offset: -2px;
+				}
+				
+				option {
+					background: white;
+					color: #495057;
+				}
+			}
+		}
+
 		
 	}
 }

@@ -16,7 +16,19 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {Element} Element to render.
  */
 export default function save({ attributes }) {
-	const { code, language, showLineNumbers, readOnly } = attributes;
+	const { 
+		files, 
+		activeFileIndex, 
+		theme,
+		showLineNumbers, 
+		wordWrap,
+		autoCloseTags,
+		autoCloseBrackets,
+		tabSize,
+		useSpaces,
+		highlightedLines,
+		maxHeight
+	} = attributes;
 	
 	const blockProps = useBlockProps.save({
 		className: 'code-previewer-block',
@@ -26,22 +38,42 @@ export default function save({ attributes }) {
 		<div {...blockProps}>
 			<div 
 				className="code-previewer-wrapper"
-				data-code={code}
-				data-language={language}
+				data-files={JSON.stringify(files)}
+				data-active-file-index={activeFileIndex}
+				data-theme={theme}
 				data-show-line-numbers={showLineNumbers}
-				data-read-only={readOnly}
+				data-word-wrap={wordWrap}
+				data-auto-close-tags={autoCloseTags}
+				data-auto-close-brackets={autoCloseBrackets}
+				data-tab-size={tabSize}
+				data-use-spaces={useSpaces}
+				data-highlighted-lines={JSON.stringify(highlightedLines)}
+				data-max-height={maxHeight}
 			>
-				<div className="code-previewer-header">
-					<span className="code-previewer-language">{language.toUpperCase()}</span>
-					<button className="copy-code-button" title="Copy code to clipboard">
-						📋 Copy
-					</button>
-				</div>
-				<pre className="code-previewer-content">
-					<code className={`language-${language}`}>
-						{code}
-					</code>
-				</pre>
+				{files.map((file, index) => (
+					<div 
+						key={index}
+						className={`file-content ${index === activeFileIndex ? 'active' : 'hidden'}`}
+						data-file-name={file.name}
+						data-language={file.language}
+					>
+						<div className="code-previewer-header">
+							<span className="code-previewer-language">{file.name}</span>
+							<button 
+								className="copy-code-button" 
+								title={`Copy ${file.name} to clipboard`}
+								data-file-index={index}
+							>
+								📋 Copy
+							</button>
+						</div>
+						<pre className="code-previewer-content">
+							<code className={`language-${file.language}`}>
+								{file.code}
+							</code>
+						</pre>
+					</div>
+				))}
 			</div>
 		</div>
 	);

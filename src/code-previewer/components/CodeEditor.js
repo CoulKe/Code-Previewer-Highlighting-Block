@@ -1,103 +1,145 @@
 /**
  * Simple CodeMirror Editor for HTML, JavaScript, and CSS
  */
-import { useEffect, useRef } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 import { EditorView, basicSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
-import { javascript } from '@codemirror/lang-javascript';
-import { html } from '@codemirror/lang-html';
-import { css } from '@codemirror/lang-css';
+import { getLanguageExtension } from '../utils/languageLoader';
+import { getThemeExtension } from '../utils/themeLoader';
+import { createLineHighlightExtension } from '../utils/highlightUtils';
+import { getCloseBracketsExtension } from '../utils/bracketsLoader';
+import { getAutoCloseTagsExtension } from '../utils/tagsLoader';
+import { createSimpleAutoHeight } from '../utils/autoHeight';
+
 
 const CodeEditor = ({ 
 	code, 
 	language, 
-	showLineNumbers, 
-	readOnly, 
+	theme = 'dark',
+	showLineNumbers,
+	highlightedLines = [],
+	autoCloseBrackets = true,
+	autoCloseTags = true,
+	maxHeight = 400,
 	onChange 
 }) => {
 	const editorRef = useRef(null);
 	const viewRef = useRef(null);
+	const onChangeRef = useRef(onChange);
+	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		onChangeRef.current = onChange;
+	}, [onChange]);
 
 	useEffect(() => {
 		if (!editorRef.current) return;
 
-		const extensions = [basicSetup];
-		
-		// Add language support
-		switch (language) {
-			case 'javascript':
-			case 'js':
-				extensions.push(javascript());
-				break;
-			case 'html':
-				extensions.push(html());
-				break;
-			case 'css':
-				extensions.push(css());
-				break;
-		}
+		const initializeEditor = async () => {
+			setIsLoading(true);
 
-		// Hide line numbers if not needed
-		if (!showLineNumbers) {
-			extensions.push(EditorView.theme({
-				'.cm-gutters': { display: 'none' }
-			}));
-		}
+			// Destroy existing editor if it exists
+			if (viewRef.current) {
+				viewRef.current.destroy();
+				viewRef.current = null;
+			}
 
-		// Add read-only if needed
-		if (readOnly) {
-			extensions.push(EditorState.readOnly.of(true));
-		}
+			const extensions = [basicSetup];
 
-		// Add onChange handler
-		if (onChange && !readOnly) {
+			try {
+				const languageExtension = await getLanguageExtension(language);
+				extensions.push(languageExtension);
+			} catch (error) {
+				// Fallback to javascript
+				const fallbackExtension = await getLanguageExtension('javascript');
+				extensions.push(fallbackExtension);
+			}
+
+			const themeExtension = await getThemeExtension(theme);
+			extensions.push(themeExtension);
+
+			const highlightExtensions = createLineHighlightExtension(highlightedLines);
+			extensions.push(...highlightExtensions);
+
+			// Auto close brackets (lazy loaded, only for admin editor)
+			const bracketsExtensions = await getCloseBracketsExtension(autoCloseBrackets, false);
+			extensions.push(...bracketsExtensions);
+
+			// Auto close tags (lazy loaded, only for admin editor)
+			const tagsExtensions = await getAutoCloseTagsExtension(autoCloseTags, false);
+			extensions.push(...tagsExtensions);
+
+			// Auto-height functionality with custom maxHeight
+			extensions.push(createSimpleAutoHeight({ maxHeight }));
+
+			// Hide line numbers if not needed
+			if (!showLineNumbers) {
+				extensions.push(EditorView.theme({
+					'.cm-gutters': { display: 'none' }
+				}));
+			}
+
 			extensions.push(EditorView.updateListener.of((update) => {
-				if (update.docChanged) {
-					onChange(update.state.doc.toString());
+				if (update.docChanged && onChangeRef.current) {
+					onChangeRef.current(update.state.doc.toString());
 				}
 			}));
-		}
 
-		const state = EditorState.create({
-			doc: code || '',
-			extensions,
-		});
+			const state = EditorState.create({
+				doc: code || '',
+				extensions,
+			});
 
-		const view = new EditorView({
-			state,
-			parent: editorRef.current,
-		});
+			const view = new EditorView({
+				state,
+				parent: editorRef.current,
+			});
 
-		viewRef.current = view;
+			viewRef.current = view;
+			setIsLoading(false);
+		};
 
-		// Cleanup
+		initializeEditor();
+
 		return () => {
 			if (viewRef.current) {
 				viewRef.current.destroy();
 				viewRef.current = null;
 			}
 		};
-	}, [code, language, showLineNumbers, readOnly, onChange]);
+	}, [language, theme, showLineNumbers, highlightedLines, autoCloseBrackets, autoCloseTags, maxHeight]);
 
-	// Update content when code changes externally
+	// Update content when code changes externally (but not from user input)
 	useEffect(() => {
-		if (viewRef.current && viewRef.current.state.doc.toString() !== code) {
-			const transaction = viewRef.current.state.update({
-				changes: {
-					from: 0,
-					to: viewRef.current.state.doc.length,
-					insert: code || '',
-				},
-			});
-			viewRef.current.dispatch(transaction);
+		if (viewRef.current) {
+			const currentContent = viewRef.current.state.doc.toString();
+			if (currentContent !== (code || '')) {
+				const transaction = viewRef.current.state.update({
+					changes: {
+						from: 0,
+						to: viewRef.current.state.doc.length,
+						insert: code || '',
+					},
+				});
+				viewRef.current.dispatch(transaction);
+			}
 		}
 	}, [code]);
 
 	return (
-		<div 
-			ref={editorRef} 
-			className="code-editor"
-		/>
+		<div className="code-editor-wrapper">
+			{isLoading && (
+				<div className="code-editor-loading">
+					<div className="code-editor-spinner"></div>
+					<span>Loading language support...</span>
+				</div>
+			)}
+			<div 
+				ref={editorRef} 
+				className="code-editor"
+				style={{ display: isLoading ? 'none' : 'block' }}
+			/>
+		</div>
 	);
 };
 

@@ -32,10 +32,15 @@
 		}
 		
 		.code-previewer-editor {
+			height: auto;
+			min-height: 100px;
+			
 			.cm-editor {
 				font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 				font-size: 14px;
 				line-height: 1.5;
+				height: auto;
+				min-height: 100px;
 				
 				&.cm-focused {
 					outline: none;
@@ -44,22 +49,301 @@
 			
 			.cm-content {
 				padding: 12px;
-				min-height: 200px;
+				min-height: 100px;
 			}
 			
 			.cm-line {
 				padding: 0 4px;
 			}
+		}
+	}
+	
+	// Code Editor Loading Spinner
+	.code-editor-wrapper {
+		position: relative;
+		
+		.code-editor-loading {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			padding: 20px;
+			background: #f8f9fa;
+			border: 1px solid #e9ecef;
+			border-radius: 6px;
+			font-size: 14px;
+			color: #6c757d;
+			min-height: 200px;
 			
-			.cm-gutters {
-				border-right: 1px solid #e9ecef;
-				background: #f8f9fa;
+			.code-editor-spinner {
+				width: 16px;
+				height: 16px;
+				border: 2px solid #e9ecef;
+				border-top: 2px solid #007cba;
+				border-radius: 50%;
+				animation: code-editor-spin 1s linear infinite;
+			}
+		}
+	}
+	
+	@keyframes code-editor-spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
+	
+	// Error Boundary and Error Display Styles
+	.code-previewer-error-boundary {
+		border: 1px solid #dc3232;
+		border-radius: 4px;
+		background: #fbeaea;
+		padding: 20px;
+		margin: 10px 0;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+		
+		.error-content {
+			display: flex;
+			align-items: flex-start;
+			gap: 15px;
+		}
+		
+		.error-icon {
+			flex-shrink: 0;
+			
+			.dashicons {
+				font-size: 24px;
+				color: #dc3232;
+			}
+		}
+		
+		.error-message {
+			h3 {
+				margin: 0 0 10px 0;
+				color: #dc3232;
+				font-size: 16px;
 			}
 			
-			.cm-lineNumbers {
-				color: #6c757d;
+			p {
+				margin: 0 0 15px 0;
+				color: #666;
+				line-height: 1.5;
+			}
+		}
+		
+		.error-details {
+			margin-top: 15px;
+			
+			summary {
+				cursor: pointer;
+				font-weight: 600;
+				color: #333;
+				margin-bottom: 10px;
+			}
+			
+			pre {
+				background: #f1f1f1;
+				padding: 10px;
+				border-radius: 3px;
 				font-size: 12px;
+				overflow-x: auto;
+				margin: 5px 0;
 			}
+		}
+	}
+	
+	// Frontend Error Display
+	.code-previewer-error {
+		border: 1px solid #dc3232;
+		border-radius: 4px;
+		background: #fbeaea;
+		padding: 15px;
+		margin: 10px 0;
+		text-align: center;
+		
+		.error-content {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			color: #dc3232;
+			font-size: 14px;
+			
+			.dashicons {
+				font-size: 18px;
+			}
+		}
+	}
+	
+	// Multi-file editor styles
+	.multi-file-editor {
+		.file-tabs {
+			display: flex;
+			background: #f8f9fa;
+			border-bottom: 1px solid #e9ecef;
+			padding: 8px 12px;
+			gap: 8px;
+			flex-wrap: wrap;
+			align-items: center;
+			
+			.file-tab {
+				display: flex;
+				align-items: center;
+				background: #fff;
+				border: 1px solid #dee2e6;
+				border-radius: 4px;
+				overflow: hidden;
+				
+				&.active {
+					border-color: #007cba;
+					box-shadow: 0 0 0 1px #007cba;
+				}
+				
+				.file-name-input {
+					padding: 6px 8px;
+					border: 1px solid #007cba;
+					font-size: 12px;
+					font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+					background: white;
+					border-radius: 3px;
+					min-width: 80px;
+					
+					&:focus {
+						outline: 2px solid #007cba;
+						outline-offset: -2px;
+					}
+				}
+				
+				.tab-button {
+					background: none;
+					border: none;
+					padding: 6px 8px;
+					font-size: 12px;
+					font-weight: 500;
+					color: #495057;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+					
+					&:hover {
+						background: #f8f9fa;
+					}
+				}
+				
+				.edit-filename-button {
+					background: none;
+					border: none;
+					padding: 4px 6px;
+					font-size: 10px;
+					color: #6c757d;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					border-left: 1px solid #dee2e6;
+					
+					&:hover {
+						background: #f8f9fa;
+						color: #495057;
+					}
+				}
+				
+				&.active .tab-button {
+					background: #007cba;
+					color: white;
+					font-weight: 600;
+				}
+				
+				.remove-file {
+					background: #dc3545;
+					color: white;
+					border: none;
+					border-left: 1px solid #dee2e6;
+					padding: 6px 8px;
+					font-size: 12px;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					
+					&:hover {
+						background: #c82333;
+					}
+				}
+				
+				.copy-code-button {
+					background: #6c757d;
+					color: white;
+					border: none;
+					border-left: 1px solid #dee2e6;
+					padding: 6px 8px;
+					font-size: 12px;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					
+					&:hover {
+						background: #495057;
+					}
+					
+					&.copied {
+						background: #28a745;
+					}
+				}
+			}
+			
+			.add-file-tab {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				
+				.file-name-input {
+					padding: 6px 8px;
+					border: 1px solid #dee2e6;
+					border-radius: 4px;
+					font-size: 12px;
+					font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+					min-width: 120px;
+					
+					&:focus {
+						outline: 2px solid #007cba;
+						outline-offset: -2px;
+						border-color: #007cba;
+					}
+				}
+				
+				button {
+					background: #007cba;
+					color: white;
+					border: none;
+					padding: 6px 12px;
+					border-radius: 4px;
+					font-size: 12px;
+					font-weight: 600;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					
+					&:hover:not(:disabled) {
+						background: #005a8b;
+					}
+					
+					&:disabled {
+						background: #6c757d;
+						cursor: not-allowed;
+					}
+				}
+			}
+			
+			.preview-toggle-tab {
+				margin-left: auto;
+				
+				.components-toggle-control {
+					.components-form-toggle {
+						margin-right: 8px;
+					}
+				}
+			}
+		}
+		
+	}
+	
+	// Settings Modal styles
+	.code-previewer-settings-modal {
+		.components-modal__content {
+			max-width: 600px;
 		}
 	}
 }

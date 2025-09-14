@@ -17,11 +17,11 @@ import {
 	BlockControls
 } from '@wordpress/block-editor';
 
+import { useCallback, useState, useMemo } from '@wordpress/element';
+
 import {
 	PanelBody,
-	SelectControl,
 	ToggleControl,
-	TextareaControl,
 	ToolbarGroup,
 	ToolbarButton
 } from '@wordpress/components';
@@ -34,7 +34,9 @@ import {
  */
 import './editor.scss';
 
-import CodeEditor from './components/CodeEditor';
+import MultiFileEditor from './components/MultiFileEditor';
+import SettingsModal from './components/SettingsModal';
+import ErrorBoundary from './components/ErrorBoundary';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -45,81 +47,118 @@ import CodeEditor from './components/CodeEditor';
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { code, language, showLineNumbers, readOnly } = attributes;
+	const { 
+		files, 
+		activeFileIndex, 
+		theme,
+		showLineNumbers, 
+		wordWrap,
+		autoCloseTags,
+		autoCloseBrackets,
+		tabSize,
+		useSpaces,
+		highlightedLines,
+		maxHeight
+	} = attributes;
+
+	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
 	const blockProps = useBlockProps({
 		className: 'code-previewer-block',
 	});
 
-	const languageOptions = [
-		{ label: 'JavaScript', value: 'javascript' },
-		{ label: 'HTML', value: 'html' },
-		{ label: 'CSS', value: 'css' },
-	];
+	const handleFilesChange = useCallback((newFiles) => {
+		setAttributes({ files: newFiles });
+	}, [setAttributes]);
 
-	const handleCodeChange = (newCode) => {
-		setAttributes({ code: newCode });
-	};
+	const handleActiveFileChange = useCallback((newIndex) => {
+		setAttributes({ activeFileIndex: newIndex });
+	}, [setAttributes]);
 
-	const toggleReadOnly = () => {
-		setAttributes({ readOnly: !readOnly });
-	};
+	const handleSettingsChange = useCallback((newSettings) => {
+		setAttributes({
+			theme: newSettings.theme,
+			showLineNumbers: newSettings.showLineNumbers,
+			wordWrap: newSettings.wordWrap,
+			autoCloseTags: newSettings.autoCloseTags,
+			autoCloseBrackets: newSettings.autoCloseBrackets,
+			tabSize: newSettings.tabSize,
+			useSpaces: newSettings.useSpaces,
+			highlightedLines: newSettings.highlightedLines,
+			maxHeight: newSettings.maxHeight
+		});
+	}, [setAttributes]);
+
+
+
+	const currentSettings = useMemo(() => ({
+		theme,
+		showLineNumbers,
+		wordWrap,
+		autoCloseTags,
+		autoCloseBrackets,
+		tabSize,
+		useSpaces,
+		highlightedLines,
+		maxHeight
+	}), [theme, showLineNumbers, wordWrap, autoCloseTags, autoCloseBrackets, tabSize, useSpaces, highlightedLines, maxHeight]);
 
 	return (
 		<div {...blockProps}>
-			<BlockControls>
-				<ToolbarGroup>
-					<ToolbarButton
-						icon={readOnly ? 'edit' : 'visibility'}
-						label={readOnly ? __('Enable editing', 'code-previewer') : __('Preview mode', 'code-previewer')}
-						onClick={toggleReadOnly}
-						isPressed={readOnly}
-					/>
-				</ToolbarGroup>
-			</BlockControls>
+		<BlockControls>
+			<ToolbarGroup>
+				<ToolbarButton
+					icon="admin-generic"
+					label={__('Settings', 'code-previewer')}
+					onClick={() => setIsSettingsOpen(true)}
+				/>
+			</ToolbarGroup>
+		</BlockControls>
 
 			<InspectorControls>
-				<PanelBody title={__('Code Settings', 'code-previewer')} initialOpen={true}>
-					<SelectControl
-						label={__('Language', 'code-previewer')}
-						value={language}
-						options={languageOptions}
-						onChange={(newLanguage) => setAttributes({ language: newLanguage })}
-					/>
+				<PanelBody title={__('Files', 'code-previewer')} initialOpen={true}>
+					<p>{__('Files:', 'code-previewer')} {files.length}</p>
+					<p>{__('Active:', 'code-previewer')} {files[activeFileIndex]?.name || 'None'}</p>
+				</PanelBody>
+				<PanelBody title={__('Basic Settings', 'code-previewer')} initialOpen={false}>
 					<ToggleControl
 						label={__('Show Line Numbers', 'code-previewer')}
 						checked={showLineNumbers}
 						onChange={(newShowLineNumbers) => setAttributes({ showLineNumbers: newShowLineNumbers })}
 					/>
 					<ToggleControl
-						label={__('Read Only', 'code-previewer')}
-						checked={readOnly}
-						onChange={(newReadOnly) => setAttributes({ readOnly: newReadOnly })}
-					/>
-				</PanelBody>
-				<PanelBody title={__('Code Input', 'code-previewer')} initialOpen={false}>
-					<TextareaControl
-						label={__('Code', 'code-previewer')}
-						value={code}
-						onChange={handleCodeChange}
-						rows={10}
-						help={__('Enter your code here, or use the editor above.', 'code-previewer')}
+						label={__('Word Wrap', 'code-previewer')}
+						checked={wordWrap}
+						onChange={(newWordWrap) => setAttributes({ wordWrap: newWordWrap })}
 					/>
 				</PanelBody>
 			</InspectorControls>
 
 			<div className="code-previewer-wrapper">
-				<div className="code-previewer-header">
-					<h4>{__('Code Previewer', 'code-previewer')} - {language.toUpperCase()}</h4>
-				</div>
-				<CodeEditor
-					code={code}
-					language={language}
-					showLineNumbers={showLineNumbers}
-					readOnly={readOnly}
-					onChange={handleCodeChange}
-				/>
+				<ErrorBoundary showErrorDetails={false}>
+					<MultiFileEditor
+						files={files}
+						activeFileIndex={activeFileIndex}
+						theme={theme}
+						showLineNumbers={showLineNumbers}
+						autoCloseTags={autoCloseTags}
+						autoCloseBrackets={autoCloseBrackets}
+						highlightedLines={highlightedLines}
+						maxHeight={maxHeight}
+						onFilesChange={handleFilesChange}
+						onActiveFileChange={handleActiveFileChange}
+					/>
+				</ErrorBoundary>
 			</div>
+
+			<ErrorBoundary showErrorDetails={false}>
+				<SettingsModal
+					isOpen={isSettingsOpen}
+					onClose={() => setIsSettingsOpen(false)}
+					settings={currentSettings}
+					onSettingsChange={handleSettingsChange}
+				/>
+			</ErrorBoundary>
 		</div>
 	);
 }

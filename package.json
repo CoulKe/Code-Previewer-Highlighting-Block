@@ -1,8 +1,8 @@
 {
 	"name": "code-previewer",
 	"version": "0.1.0",
-	"description": "Example block scaffolded with Create Block tool.",
-	"author": "The WordPress Contributors",
+	"description": "A wordpress plugin for previewing code snippets with syntax highlighting.",
+	"author": "Coulston Luteya",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
@@ -17,6 +17,7 @@
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^30.23.0",
+		"babel-plugin-transform-imports": "^2.0.0",
 		"browser-sync": "^3.0.4",
 		"concurrently": "^8.2.2",
 		"dotenv": "^17.2.2"
@@ -33,7 +34,12 @@
 		"@codemirror/lang-xml": "^6.1.0",
 		"@codemirror/state": "^6.5.2",
 		"@codemirror/view": "^6.38.2",
+		"@uiw/codemirror-theme-bbedit": "^4.25.1",
+		"@uiw/codemirror-theme-github": "^4.25.1",
 		"codemirror": "^6.0.2",
 		"thememirror": "^2.0.1"
+	},
+	"engines": {
+		"node": ">=20"
 	}
 }
