@@ -4,6 +4,7 @@
  */
 
 import { __ } from '@wordpress/i18n';
+import { useState } from '@wordpress/element';
 import { 
 	Modal, 
 	PanelBody, 
@@ -16,6 +17,7 @@ import { getThemeOptions } from '../utils/constants';
 
 export default function SettingsModal({ isOpen, onClose, settings, onSettingsChange }) {
 	const themeOptions = getThemeOptions(__);
+	const [highlightedLinesInput, setHighlightedLinesInput] = useState(settings.highlightedLines.join(', '));
 
 	const updateSetting = (key, value) => {
 		onSettingsChange({
@@ -88,15 +90,40 @@ export default function SettingsModal({ isOpen, onClose, settings, onSettingsCha
 			</PanelBody>
 
 			<PanelBody title={__('Line Highlighting', 'code-previewer')} initialOpen={false}>
-				<TextControl
-					label={__('Highlighted Lines', 'code-previewer')}
-					value={settings.highlightedLines.join(', ')}
-					onChange={(value) => {
-						const lines = value.split(',').map(line => parseInt(line.trim())).filter(line => !isNaN(line));
-						updateSetting('highlightedLines', lines);
-					}}
-					help={__('Comma-separated list of line numbers to highlight (e.g., 1, 5, 10-15).', 'code-previewer')}
-				/>
+				<div className="components-base-control">
+					<label className="components-base-control__label">
+						{__('Highlighted Lines', 'code-previewer')}
+					</label>
+					<input
+						type="text"
+						className="components-text-control__input"
+						value={highlightedLinesInput}
+						onChange={(e) => {
+							const value = e.target.value;
+							setHighlightedLinesInput(value);
+						}}
+						onBlur={(e) => {
+							const value = e.target.value;
+							const lines = value.split(',').map(line => {
+								const trimmed = line.trim();
+								// Handle range notation like "2-5"
+								if (trimmed.includes('-')) {
+									const [start, end] = trimmed.split('-').map(n => parseInt(n.trim()));
+									if (!isNaN(start) && !isNaN(end) && start <= end) {
+										return Array.from({length: end - start + 1}, (_, i) => start + i);
+									}
+									return [];
+								}
+								return parseInt(trimmed);
+							}).flat().filter(line => !isNaN(line) && line > 0);
+							updateSetting('highlightedLines', lines);
+						}}
+						placeholder="1, 5, 10-15"
+					/>
+					<p className="components-base-control__help">
+						{__('Comma-separated list of line numbers to highlight. Supports individual lines and ranges (e.g., 1, 5, 10-15).', 'code-previewer')}
+					</p>
+				</div>
 			</PanelBody>
 
 			<PanelBody title={__('Editor Size', 'code-previewer')} initialOpen={false}>
