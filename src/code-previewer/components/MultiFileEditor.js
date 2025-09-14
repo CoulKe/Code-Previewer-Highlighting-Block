@@ -24,6 +24,7 @@ export default function MultiFileEditor({
 }) {
 	const [newFileName, setNewFileName] = useState('');
 	const [editingFileIndex, setEditingFileIndex] = useState(null);
+	const [editingFileName, setEditingFileName] = useState('');
 	const filesRef = useRef(files);
 
 	useEffect(() => {
@@ -74,19 +75,27 @@ export default function MultiFileEditor({
 		};
 		onFilesChange(updatedFiles);
 		setEditingFileIndex(null);
+		setEditingFileName('');
 	}, [files, getLanguageFromFileName, onFilesChange]);
 
 	const startEditingFileName = useCallback((index) => {
 		setEditingFileIndex(index);
-	}, []);
+		setEditingFileName(files[index].name);
+	}, [files]);
 
-	const handleFileNameKeyPress = useCallback((e) => {
+	const handleFileNameKeyPress = useCallback((e, index) => {
 		if (e.key === 'Enter') {
-			setEditingFileIndex(null);
+			if (editingFileName.trim()) {
+				updateFileName(index, editingFileName.trim());
+			} else {
+				setEditingFileIndex(null);
+				setEditingFileName('');
+			}
 		} else if (e.key === 'Escape') {
 			setEditingFileIndex(null);
+			setEditingFileName('');
 		}
-	}, []);
+	}, [editingFileName, updateFileName]);
 
 	const updateFileCode = useCallback((newCode) => {
 		const updatedFiles = [...filesRef.current];
@@ -108,14 +117,14 @@ export default function MultiFileEditor({
 						{editingFileIndex === index ? (
 							<input
 								type="text"
-								value={file.name}
-								onChange={(e) => updateFileName(index, e.target.value)}
+								value={editingFileName}
+								onChange={(e) => setEditingFileName(e.target.value)}
 								className="file-name-input editing"
 								onBlur={(e) => {
-									if (!e.target.value.trim()) {
+									if (!editingFileName.trim()) {
 										updateFileName(index, `file${index + 1}.js`);
 									} else {
-										setEditingFileIndex(null);
+										updateFileName(index, editingFileName.trim());
 									}
 								}}
 								onKeyDown={(e) => handleFileNameKeyPress(e, index)}
