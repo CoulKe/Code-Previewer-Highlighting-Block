@@ -1,0 +1,14 @@
+diff --git a/node_modules/@codemirror/view/dist/index.js b/node_modules/@codemirror/view/dist/index.js
+index acee148..0d2452c 100644
+--- a/node_modules/@codemirror/view/dist/index.js
++++ b/node_modules/@codemirror/view/dist/index.js
+@@ -6550,6 +6550,9 @@ const baseTheme$1 = /*@__PURE__*/buildTheme("." + baseThemeID, {
+     "&.cm-focused > .cm-scroller > .cm-cursorLayer": {
+         animation: "steps(1) cm-blink 1.2s infinite"
+     },
++    ".frontend &.cm-focused > .cm-scroller > .cm-cursorLayer": {
++        animation: "none !important"
++    },
+     // Two animations defined so that we can switch between them to
+     // restart the animation without forcing another style
+     // recomputation.

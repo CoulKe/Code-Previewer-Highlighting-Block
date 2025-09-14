@@ -19,6 +19,9 @@ function initializeCodePreviewer() {
 	const codeBlocks = document.querySelectorAll('.code-previewer-wrapper');
 	
 	codeBlocks.forEach(function(block) {
+		// Add frontend class to distinguish from admin editor
+		block.classList.add('frontend');
+		
 		const filesData = block.dataset.files;
 		const activeFileIndex = 0;
 		const theme = block.dataset.theme || 'dark';

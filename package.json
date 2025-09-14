@@ -13,6 +13,7 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
+		"postinstall": "patch-package",
 		"start": "wp-scripts start --blocks-manifest"
 	},
 	"devDependencies": {
@@ -20,7 +21,8 @@
 		"babel-plugin-transform-imports": "^2.0.0",
 		"browser-sync": "^3.0.4",
 		"concurrently": "^8.2.2",
-		"dotenv": "^17.2.2"
+		"dotenv": "^17.2.2",
+		"patch-package": "^8.0.0"
 	},
 	"dependencies": {
 		"@codemirror/lang-css": "^6.3.1",
