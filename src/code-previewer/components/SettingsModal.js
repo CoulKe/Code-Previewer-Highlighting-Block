@@ -18,6 +18,7 @@ import { getThemeOptions } from '../utils/constants';
 export default function SettingsModal({ isOpen, onClose, settings, onSettingsChange }) {
 	const themeOptions = getThemeOptions(__);
 	const [highlightedLinesInput, setHighlightedLinesInput] = useState(settings.highlightedLines.join(', '));
+	const [maxHeightInput, setMaxHeightInput] = useState(settings.maxHeight.toString());
 
 	const updateSetting = (key, value) => {
 		onSettingsChange({
@@ -127,15 +128,31 @@ export default function SettingsModal({ isOpen, onClose, settings, onSettingsCha
 			</PanelBody>
 
 			<PanelBody title={__('Editor Size', 'code-previewer')} initialOpen={false}>
-				<TextControl
-					label={__('Maximum Height (px)', 'code-previewer')}
-					type="number"
-					value={settings.maxHeight}
-					onChange={(value) => updateSetting('maxHeight', parseInt(value) || 400)}
-					min={100}
-					max={1000}
-					help={__('Maximum height of the code editor in pixels. Editor will auto-resize based on content up to this limit.', 'code-previewer')}
-				/>
+				<div className="components-base-control">
+					<label className="components-base-control__label">
+						{__('Maximum Height (px)', 'code-previewer')}
+					</label>
+					<input
+						type="number"
+						className="components-text-control__input"
+						value={maxHeightInput}
+						onChange={(e) => setMaxHeightInput(e.target.value)}
+						onBlur={(e) => {
+							const value = parseInt(e.target.value);
+							if (!isNaN(value) && value >= 100 && value <= 1000) {
+								updateSetting('maxHeight', value);
+							} else {
+								updateSetting('maxHeight', 400);
+								setMaxHeightInput('400');
+							}
+						}}
+						min={100}
+						max={1000}
+					/>
+					<p className="components-base-control__help">
+						{__('Maximum height of the code editor in pixels. Editor will auto-resize based on content up to this limit.', 'code-previewer')}
+					</p>
+				</div>
 			</PanelBody>
 
 			<div style={{ marginTop: '20px', textAlign: 'right' }}>
