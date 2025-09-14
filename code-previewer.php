@@ -1,11 +1,13 @@
 <?php
 /**
  * Plugin Name:       Code Previewer
- * Description:       Example block scaffolded with Create Block tool.
+ * Description:       A wordpress plugin for previewing code snippets with syntax highlighting.
  * Version:           0.1.0
+ * Author:            Coulston Luteya
+ * Author URI:        https://luteya.com
  * Requires at least: 6.7
  * Requires PHP:      7.4
- * Author:            The WordPress Contributors
+ * Author:            Coulston Luteya
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       code-previewer
