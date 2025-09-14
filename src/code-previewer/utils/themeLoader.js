@@ -76,8 +76,8 @@ export function normalizeThemeName(themeName) {
  */
 export function getAvailableThemes() {
 	return [
-		{ value: 'light', label: 'Light (BBEdit)' },
-		{ value: 'dark', label: 'Dark (GitHub)' },
+		{ value: 'light', label: 'Light' },
+		{ value: 'dark', label: 'Dark' },
 		{ value: 'cobalt', label: 'Cobalt' }
 	];
 }

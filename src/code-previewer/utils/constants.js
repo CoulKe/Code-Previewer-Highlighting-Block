@@ -19,8 +19,8 @@ export const getLanguageOptions = (__) => [
 
 // Theme options with internationalization support
 export const getThemeOptions = (__) => [
-	{ label: __('Light (BBEdit)', 'code-previewer'), value: 'light' },
-	{ label: __('Dark (GitHub)', 'code-previewer'), value: 'dark' },
+	{ label: __('Light', 'code-previewer'), value: 'light' },
+	{ label: __('Dark', 'code-previewer'), value: 'dark' },
 	{ label: __('Cobalt', 'code-previewer'), value: 'cobalt' }
 ];
 
