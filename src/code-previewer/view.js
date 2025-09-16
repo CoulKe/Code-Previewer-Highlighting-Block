@@ -33,11 +33,12 @@ function initializeCodePreviewer() {
 		try {
 			files = JSON.parse(filesData);
 		} catch (e) {
+			const l10n = window.codePreviewerL10n || {};
 			block.innerHTML = `
 				<div class="code-previewer-error">
 					<div class="error-content">
 						<span class="dashicons dashicons-warning"></span>
-						<span>Failed to load code preview. Please check the block configuration.</span>
+						<span>${l10n.loadError || 'Failed to load code preview. Please check the block configuration.'}</span>
 					</div>
 				</div>
 			`;
@@ -54,7 +55,7 @@ function initializeCodePreviewer() {
 		
 		const themeLabel = document.createElement('span');
 		themeLabel.className = 'theme-label';
-		themeLabel.textContent = 'Theme:';
+		themeLabel.textContent = window.codePreviewerL10n?.themeLabel || 'Theme:';
 		
 		const themeSelect = document.createElement('select');
 		themeSelect.className = 'theme-select';
@@ -63,9 +64,13 @@ function initializeCodePreviewer() {
 		const userThemeKey = `code-previewer-theme-${block.closest('.wp-block-luteya-code-previewer')?.id || 'default'}`;
 		const currentTheme = localStorage.getItem(userThemeKey) || theme;
 		
+		const l10n = window.codePreviewerL10n || {};
 		const themeOptions = [
 			...getAvailableThemes(),
-			{ value: theme, label: `Default (${theme === 'light' ? 'Light' : theme === 'cobalt' ? 'Cobalt' : 'Dark'})` }
+			{ 
+				value: theme, 
+				label: `${l10n.defaultTheme || 'Default'} (${theme === 'light' ? (l10n.light || 'Light') : theme === 'cobalt' ? (l10n.cobalt || 'Cobalt') : (l10n.dark || 'Dark')})` 
+			}
 		];
 		
 		themeOptions.forEach(option => {
@@ -98,12 +103,12 @@ function initializeCodePreviewer() {
 			tab.className = `frontend-file-tab ${isActive ? 'active' : ''}`;
 			tab.textContent = file.name;
 			tab.onclick = () => switchFile(block, index);
-			tab.setAttribute('title', `View ${file.name}`);
+			tab.setAttribute('title', `${l10n.viewFile || 'View'} ${file.name}`);
 			
 			const copyButton = document.createElement('button');
 			copyButton.className = 'copy-code-button';
 			copyButton.innerHTML = '📋';
-			copyButton.setAttribute('title', `Copy ${file.name} to clipboard`);
+			copyButton.setAttribute('title', `${l10n.copyFile || 'Copy'} ${file.name} ${l10n.toClipboard || 'to clipboard'}`);
 			copyButton.onclick = () => copyFileCode(file.code, copyButton);
 			
 			tabWrapper.appendChild(tab);

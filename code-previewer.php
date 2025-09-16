@@ -58,3 +58,33 @@ function luteya_code_previewer_block_init() {
 	}
 }
 add_action( 'init', 'luteya_code_previewer_block_init' );
+
+/**
+ * Localize frontend script with translatable strings
+ */
+function luteya_code_previewer_localize_script() {
+	// Only localize on frontend
+	if ( is_admin() ) {
+		return;
+	}
+	
+	// Get the correct script handle for the view script
+	$script_handle = 'luteya-code-previewer-view-script';
+	
+	wp_localize_script( 
+		$script_handle, 
+		'codePreviewerL10n', 
+		array(
+			'themeLabel' => __( 'Theme:', 'code-previewer' ),
+			'defaultTheme' => __( 'Default', 'code-previewer' ),
+			'light' => __( 'Light', 'code-previewer' ),
+			'dark' => __( 'Dark', 'code-previewer' ),
+			'cobalt' => __( 'Cobalt', 'code-previewer' ),
+			'viewFile' => __( 'View', 'code-previewer' ),
+			'copyFile' => __( 'Copy', 'code-previewer' ),
+			'toClipboard' => __( 'to clipboard', 'code-previewer' ),
+			'loadError' => __( 'Failed to load code preview. Please check the block configuration.', 'code-previewer' ),
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'luteya_code_previewer_localize_script' );
