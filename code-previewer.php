@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Code Previewer
  * Description:       A wordpress plugin for previewing code snippets with syntax highlighting.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Author:            Coulston Luteya
  * Author URI:        https://luteya.com
  * Requires at least: 6.7

@@ -1,6 +1,6 @@
 {
 	"name": "code-previewer",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "A wordpress plugin for previewing code snippets with syntax highlighting.",
 	"author": "Coulston Luteya",
 	"license": "GPL-2.0-or-later",

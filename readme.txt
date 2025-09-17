@@ -2,7 +2,7 @@
 Contributors:      Coulston Luteya
 Tags:              block
 Tested up to:      6.8
-Stable tag:        0.1.0
+Stable tag:        0.1.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,7 +44,7 @@ Yes, the plugin includes various themes and customization options in the block s
 
 == Changelog ==
 
-= 0.1.0 =
+= 0.1.1 =
 * Release
 
 == Features ==
