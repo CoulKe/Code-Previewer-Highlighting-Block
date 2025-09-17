@@ -7,8 +7,6 @@ import { EditorState } from '@codemirror/state';
 import { getLanguageExtension } from '../utils/languageLoader';
 import { getThemeExtension } from '../utils/themeLoader';
 import { createLineHighlightExtension } from '../utils/highlightUtils';
-import { getCloseBracketsExtension } from '../utils/bracketsLoader';
-import { getAutoCloseTagsExtension } from '../utils/tagsLoader';
 import { createSimpleAutoHeight } from '../utils/autoHeight';
 
 
@@ -18,8 +16,6 @@ const CodeEditor = ({
 	theme = 'dark',
 	showLineNumbers,
 	highlightedLines = [],
-	autoCloseBrackets = true,
-	autoCloseTags = true,
 	maxHeight = 400,
 	onChange 
 }) => {
@@ -61,13 +57,6 @@ const CodeEditor = ({
 			const highlightExtensions = createLineHighlightExtension(highlightedLines);
 			extensions.push(...highlightExtensions);
 
-			// Auto close brackets (lazy loaded, only for admin editor)
-			const bracketsExtensions = await getCloseBracketsExtension(autoCloseBrackets, false);
-			extensions.push(...bracketsExtensions);
-
-			// Auto close tags (lazy loaded, only for admin editor)
-			const tagsExtensions = await getAutoCloseTagsExtension(autoCloseTags, false);
-			extensions.push(...tagsExtensions);
 
 			// Auto-height functionality with custom maxHeight
 			extensions.push(createSimpleAutoHeight({ maxHeight }));
@@ -107,7 +96,7 @@ const CodeEditor = ({
 				viewRef.current = null;
 			}
 		};
-	}, [language, theme, showLineNumbers, highlightedLines, autoCloseBrackets, autoCloseTags, maxHeight]);
+	}, [language, theme, showLineNumbers, highlightedLines, maxHeight]);
 
 	// Update content when code changes externally (but not from user input)
 	useEffect(() => {

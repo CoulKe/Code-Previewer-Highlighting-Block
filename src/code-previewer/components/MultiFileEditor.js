@@ -15,8 +15,6 @@ export default function MultiFileEditor({
 	activeFileIndex,
 	theme,
 	showLineNumbers,
-	autoCloseTags,
-	autoCloseBrackets,
 	highlightedLines,
 	maxHeight,
 	onFilesChange,
@@ -198,8 +196,6 @@ export default function MultiFileEditor({
 				theme={theme}
 				showLineNumbers={showLineNumbers}
 				highlightedLines={highlightedLines}
-				autoCloseBrackets={autoCloseBrackets}
-				autoCloseTags={autoCloseTags}
 				maxHeight={maxHeight}
 				onChange={updateFileCode}
 			/>

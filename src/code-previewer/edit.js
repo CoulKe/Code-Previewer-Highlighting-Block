@@ -53,8 +53,6 @@ export default function Edit({ attributes, setAttributes }) {
 		theme,
 		showLineNumbers, 
 		wordWrap,
-		autoCloseTags,
-		autoCloseBrackets,
 		tabSize,
 		useSpaces,
 		highlightedLines,
@@ -80,8 +78,6 @@ export default function Edit({ attributes, setAttributes }) {
 			theme: newSettings.theme,
 			showLineNumbers: newSettings.showLineNumbers,
 			wordWrap: newSettings.wordWrap,
-			autoCloseTags: newSettings.autoCloseTags,
-			autoCloseBrackets: newSettings.autoCloseBrackets,
 			tabSize: newSettings.tabSize,
 			useSpaces: newSettings.useSpaces,
 			highlightedLines: newSettings.highlightedLines,
@@ -95,13 +91,11 @@ export default function Edit({ attributes, setAttributes }) {
 		theme,
 		showLineNumbers,
 		wordWrap,
-		autoCloseTags,
-		autoCloseBrackets,
 		tabSize,
 		useSpaces,
 		highlightedLines,
 		maxHeight
-	}), [theme, showLineNumbers, wordWrap, autoCloseTags, autoCloseBrackets, tabSize, useSpaces, highlightedLines, maxHeight]);
+	}), [theme, showLineNumbers, wordWrap, tabSize, useSpaces, highlightedLines, maxHeight]);
 
 	return (
 		<div {...blockProps}>
@@ -141,8 +135,6 @@ export default function Edit({ attributes, setAttributes }) {
 						activeFileIndex={activeFileIndex}
 						theme={theme}
 						showLineNumbers={showLineNumbers}
-						autoCloseTags={autoCloseTags}
-						autoCloseBrackets={autoCloseBrackets}
 						highlightedLines={highlightedLines}
 						maxHeight={maxHeight}
 						onFilesChange={handleFilesChange}

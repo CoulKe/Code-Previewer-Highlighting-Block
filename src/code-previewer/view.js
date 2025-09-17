@@ -10,8 +10,6 @@ import { getLanguageExtension } from './utils/languageLoader';
 import { getThemeExtension, getAvailableThemes } from './utils/themeLoader';
 import { copyFileCode } from './utils/copyUtils';
 import { createLineHighlightExtension } from './utils/highlightUtils';
-import { getCloseBracketsExtension } from './utils/bracketsLoader';
-import { getAutoCloseTagsExtension } from './utils/tagsLoader';
 import { createSimpleAutoHeight } from './utils/autoHeight';
 
 // Code Previewer Initialization
@@ -166,8 +164,6 @@ function initializeCodePreviewer() {
 async function createEditorExtensions(file, block, theme, highlightedLines = []) {
 	const showLineNumbers = block.dataset.showLineNumbers === 'true';
 	const wordWrap = block.dataset.wordWrap === 'true';
-	const autoCloseTags = block.dataset.autoCloseTags !== 'false';
-	const autoCloseBrackets = block.dataset.autoCloseBrackets !== 'false';
 	const tabSize = parseInt(block.dataset.tabSize) || 4;
 	const useSpaces = block.dataset.useSpaces === 'true';
 	const maxHeight = parseInt(block.dataset.maxHeight) || 400;
@@ -181,13 +177,6 @@ async function createEditorExtensions(file, block, theme, highlightedLines = [])
 		extensions.push(EditorView.lineWrapping);
 	}
 
-	// Auto close brackets (lazy loaded, not needed for read-only frontend)
-	const bracketsExtensions = await getCloseBracketsExtension(autoCloseBrackets, true);
-	extensions.push(...bracketsExtensions);
-
-	// Auto close tags (lazy loaded, not needed for read-only frontend)
-	const tagsExtensions = await getAutoCloseTagsExtension(autoCloseTags, true);
-	extensions.push(...tagsExtensions);
 
 	extensions.push(indentUnit.of(useSpaces ? ' '.repeat(tabSize) : '\t'));
 	extensions.push(EditorState.tabSize.of(tabSize));

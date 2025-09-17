@@ -48,8 +48,6 @@ export const DEFAULT_SETTINGS = {
 	theme: 'dark',
 	showLineNumbers: true,
 	wordWrap: false,
-	autoCloseTags: true,
-	autoCloseBrackets: true,
 	tabSize: 4,
 	useSpaces: true,
 	highlightedLines: [],

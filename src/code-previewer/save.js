@@ -22,8 +22,6 @@ export default function save({ attributes }) {
 		theme,
 		showLineNumbers, 
 		wordWrap,
-		autoCloseTags,
-		autoCloseBrackets,
 		tabSize,
 		useSpaces,
 		highlightedLines,
@@ -43,8 +41,6 @@ export default function save({ attributes }) {
 				data-theme={theme}
 				data-show-line-numbers={showLineNumbers}
 				data-word-wrap={wordWrap}
-				data-auto-close-tags={autoCloseTags}
-				data-auto-close-brackets={autoCloseBrackets}
 				data-tab-size={tabSize}
 				data-use-spaces={useSpaces}
 				data-highlighted-lines={JSON.stringify(highlightedLines)}

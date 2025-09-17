@@ -58,18 +58,6 @@ export default function SettingsModal({ isOpen, onClose, settings, onSettingsCha
 					onChange={(value) => updateSetting('wordWrap', value)}
 					help={__('Wrap long lines instead of showing horizontal scrollbar.', 'code-previewer')}
 				/>
-				<ToggleControl
-					label={__('Auto Close Tags', 'code-previewer')}
-					checked={settings.autoCloseTags}
-					onChange={(value) => updateSetting('autoCloseTags', value)}
-					help={__('Automatically close HTML tags.', 'code-previewer')}
-				/>
-				<ToggleControl
-					label={__('Auto Close Brackets', 'code-previewer')}
-					checked={settings.autoCloseBrackets}
-					onChange={(value) => updateSetting('autoCloseBrackets', value)}
-					help={__('Automatically close brackets and quotes.', 'code-previewer')}
-				/>
 			</PanelBody>
 
 			<PanelBody title={__('Indentation', 'code-previewer')} initialOpen={false}>

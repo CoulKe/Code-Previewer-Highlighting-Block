@@ -35,14 +35,6 @@
 			"type": "boolean",
 			"default": false
 		},
-		"autoCloseTags": {
-			"type": "boolean",
-			"default": true
-		},
-		"autoCloseBrackets": {
-			"type": "boolean",
-			"default": true
-		},
 		"tabSize": {
 			"type": "number",
 			"default": 4
