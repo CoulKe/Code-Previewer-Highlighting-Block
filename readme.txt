@@ -1,5 +1,5 @@
 === Code Previewer Highlighting Block ===
-Contributors:      Coulston Luteya
+Contributors:      luteya
 Tags:              block
 Tested up to:      6.8
 Stable tag:        0.1.1
