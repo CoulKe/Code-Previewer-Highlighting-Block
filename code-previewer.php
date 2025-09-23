@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Code Previewer
+ * Plugin Name:       Code Previewer Highlighting Block
  * Description:       A wordpress plugin for previewing code snippets with syntax highlighting.
  * Version:           0.1.1
  * Author:            Coulston Luteya
@@ -9,7 +9,7 @@
  * Requires PHP:      7.4
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       code-previewer
+ * Text Domain:       code-previewer-highlighting-block
  *
  * @package Luteya
  */
@@ -71,19 +71,19 @@ function luteya_code_previewer_localize_script() {
 	// Get the correct script handle for the view script
 	$script_handle = 'luteya-code-previewer-view-script';
 	
-	wp_localize_script( 
+    wp_localize_script( 
 		$script_handle, 
 		'codePreviewerL10n', 
 		array(
-			'themeLabel' => __( 'Theme:', 'code-previewer' ),
-			'defaultTheme' => __( 'Default', 'code-previewer' ),
-			'light' => __( 'Light', 'code-previewer' ),
-			'dark' => __( 'Dark', 'code-previewer' ),
-			'cobalt' => __( 'Cobalt', 'code-previewer' ),
-			'viewFile' => __( 'View', 'code-previewer' ),
-			'copyFile' => __( 'Copy', 'code-previewer' ),
-			'toClipboard' => __( 'to clipboard', 'code-previewer' ),
-			'loadError' => __( 'Failed to load code preview. Please check the block configuration.', 'code-previewer' ),
+            'themeLabel' => __( 'Theme:', 'code-previewer-highlighting-block' ),
+            'defaultTheme' => __( 'Default', 'code-previewer-highlighting-block' ),
+            'light' => __( 'Light', 'code-previewer-highlighting-block' ),
+            'dark' => __( 'Dark', 'code-previewer-highlighting-block' ),
+            'cobalt' => __( 'Cobalt', 'code-previewer-highlighting-block' ),
+            'viewFile' => __( 'View', 'code-previewer-highlighting-block' ),
+            'copyFile' => __( 'Copy', 'code-previewer-highlighting-block' ),
+            'toClipboard' => __( 'to clipboard', 'code-previewer-highlighting-block' ),
+            'loadError' => __( 'Failed to load code preview. Please check the block configuration.', 'code-previewer-highlighting-block' ),
 		)
 	);
 }

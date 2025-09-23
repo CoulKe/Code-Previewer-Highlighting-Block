@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "luteya/code-previewer",
 	"version": "0.1.1",
-	"title": "Code Previewer",
+    "title": "Code Previewer Highlighting Block",
 	"category": "widgets",
 	"icon": "editor-code",
 	"description": "A code previewer with syntax highlighting using CodeMirror.",
@@ -55,7 +55,7 @@
 	"supports": {
 		"html": false
 	},
-	"textdomain": "code-previewer",
+    "textdomain": "code-previewer-highlighting-block",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

@@ -1,4 +1,4 @@
-=== Code Previewer ===
+=== Code Previewer Highlighting Block ===
 Contributors:      Coulston Luteya
 Tags:              block
 Tested up to:      6.8
@@ -14,16 +14,16 @@ A wordpress plugin for previewing code snippets with syntax highlighting.
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/code-previewer` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/code-previewer-highlighting-block` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress
-3. The Code Previewer block will be available in the block editor
+3. The Code Previewer Highlighting Block will be available in the block editor
 
 
 == Frequently Asked Questions ==
 
 = How do I add a code preview block? =
 
-Simply click the "+" button in the block editor, search for "Code Previewer", and add the block to your post or page.
+Simply click the "+" button in the block editor, search for "Code Previewer Highlighting Block", and add the block to your post or page.
 
 = What programming languages are supported? =
 

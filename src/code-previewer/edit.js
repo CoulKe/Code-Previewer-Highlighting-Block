@@ -103,25 +103,25 @@ export default function Edit({ attributes, setAttributes }) {
 			<ToolbarGroup>
 				<ToolbarButton
 					icon="admin-generic"
-					label={__('Settings', 'code-previewer')}
+					label={__('Settings', 'code-previewer-highlighting-block')}
 					onClick={() => setIsSettingsOpen(true)}
 				/>
 			</ToolbarGroup>
 		</BlockControls>
 
 			<InspectorControls>
-				<PanelBody title={__('Files', 'code-previewer')} initialOpen={true}>
-					<p>{__('Files:', 'code-previewer')} {files.length}</p>
-					<p>{__('Active:', 'code-previewer')} {files[activeFileIndex]?.name || 'None'}</p>
+				<PanelBody title={__('Files', 'code-previewer-highlighting-block')} initialOpen={true}>
+					<p>{__('Files:', 'code-previewer-highlighting-block')} {files.length}</p>
+					<p>{__('Active:', 'code-previewer-highlighting-block')} {files[activeFileIndex]?.name || 'None'}</p>
 				</PanelBody>
-				<PanelBody title={__('Basic Settings', 'code-previewer')} initialOpen={false}>
+				<PanelBody title={__('Basic Settings', 'code-previewer-highlighting-block')} initialOpen={false}>
 					<ToggleControl
-						label={__('Show Line Numbers', 'code-previewer')}
+						label={__('Show Line Numbers', 'code-previewer-highlighting-block')}
 						checked={showLineNumbers}
 						onChange={(newShowLineNumbers) => setAttributes({ showLineNumbers: newShowLineNumbers })}
 					/>
 					<ToggleControl
-						label={__('Word Wrap', 'code-previewer')}
+						label={__('Word Wrap', 'code-previewer-highlighting-block')}
 						checked={wordWrap}
 						onChange={(newWordWrap) => setAttributes({ wordWrap: newWordWrap })}
 					/>

@@ -31,57 +31,57 @@ export default function SettingsModal({ isOpen, onClose, settings, onSettingsCha
 
 	return (
 		<Modal
-			title={__('Code Editor Settings', 'code-previewer')}
+			title={__('Code Editor Settings', 'code-previewer-highlighting-block')}
 			onRequestClose={onClose}
 			className="code-previewer-settings-modal"
 		>
-			<PanelBody title={__('Appearance', 'code-previewer')} initialOpen={true}>
+			<PanelBody title={__('Appearance', 'code-previewer-highlighting-block')} initialOpen={true}>
 				<SelectControl
-					label={__('Theme', 'code-previewer')}
+					label={__('Theme', 'code-previewer-highlighting-block')}
 					value={settings.theme}
 					options={themeOptions}
 					onChange={(value) => updateSetting('theme', value)}
-					help={__('Choose the color theme for the code editor.', 'code-previewer')}
+					help={__('Choose the color theme for the code editor.', 'code-previewer-highlighting-block')}
 				/>
 				<ToggleControl
-					label={__('Show Line Numbers', 'code-previewer')}
+				label={__('Show Line Numbers', 'code-previewer-highlighting-block')}
 					checked={settings.showLineNumbers}
 					onChange={(value) => updateSetting('showLineNumbers', value)}
 					help={__('Display line numbers in the editor.', 'code-previewer')}
 				/>
 			</PanelBody>
 
-			<PanelBody title={__('Editor Behavior', 'code-previewer')} initialOpen={false}>
+			<PanelBody title={__('Editor Behavior', 'code-previewer-highlighting-block')} initialOpen={false}>
 				<ToggleControl
-					label={__('Word Wrap', 'code-previewer')}
+				label={__('Word Wrap', 'code-previewer-highlighting-block')}
 					checked={settings.wordWrap}
 					onChange={(value) => updateSetting('wordWrap', value)}
 					help={__('Wrap long lines instead of showing horizontal scrollbar.', 'code-previewer')}
 				/>
 			</PanelBody>
 
-			<PanelBody title={__('Indentation', 'code-previewer')} initialOpen={false}>
+			<PanelBody title={__('Indentation', 'code-previewer-highlighting-block')} initialOpen={false}>
 				<TextControl
-					label={__('Tab Size', 'code-previewer')}
+				label={__('Tab Size', 'code-previewer-highlighting-block')}
 					type="number"
 					value={settings.tabSize}
 					onChange={(value) => updateSetting('tabSize', parseInt(value) || 4)}
 					min={1}
 					max={8}
-					help={__('Number of spaces per tab.', 'code-previewer')}
+					help={__('Number of spaces per tab.', 'code-previewer-highlighting-block')}
 				/>
 				<ToggleControl
-					label={__('Use Spaces', 'code-previewer')}
+				label={__('Use Spaces', 'code-previewer-highlighting-block')}
 					checked={settings.useSpaces}
 					onChange={(value) => updateSetting('useSpaces', value)}
 					help={__('Use spaces instead of tabs for indentation.', 'code-previewer')}
 				/>
 			</PanelBody>
 
-			<PanelBody title={__('Line Highlighting', 'code-previewer')} initialOpen={false}>
+			<PanelBody title={__('Line Highlighting', 'code-previewer-highlighting-block')} initialOpen={false}>
 				<div className="components-base-control">
 					<label className="components-base-control__label">
-						{__('Highlighted Lines', 'code-previewer')}
+						{__('Highlighted Lines', 'code-previewer-highlighting-block')}
 					</label>
 					<input
 						type="text"
@@ -110,15 +110,15 @@ export default function SettingsModal({ isOpen, onClose, settings, onSettingsCha
 						placeholder="1, 5, 10-15"
 					/>
 					<p className="components-base-control__help">
-						{__('Comma-separated list of line numbers to highlight. Supports individual lines and ranges (e.g., 1, 5, 10-15).', 'code-previewer')}
+						{__('Comma-separated list of line numbers to highlight. Supports individual lines and ranges (e.g., 1, 5, 10-15).', 'code-previewer-highlighting-block')}
 					</p>
 				</div>
 			</PanelBody>
 
-			<PanelBody title={__('Editor Size', 'code-previewer')} initialOpen={false}>
+			<PanelBody title={__('Editor Size', 'code-previewer-highlighting-block')} initialOpen={false}>
 				<div className="components-base-control">
 					<label className="components-base-control__label">
-						{__('Maximum Height (px)', 'code-previewer')}
+						{__('Maximum Height (px)', 'code-previewer-highlighting-block')}
 					</label>
 					<input
 						type="number"
@@ -138,14 +138,14 @@ export default function SettingsModal({ isOpen, onClose, settings, onSettingsCha
 						max={1000}
 					/>
 					<p className="components-base-control__help">
-						{__('Maximum height of the code editor in pixels. Editor will auto-resize based on content up to this limit.', 'code-previewer')}
+						{__('Maximum height of the code editor in pixels. Editor will auto-resize based on content up to this limit.', 'code-previewer-highlighting-block')}
 					</p>
 				</div>
 			</PanelBody>
 
 			<div style={{ marginTop: '20px', textAlign: 'right' }}>
 				<Button variant="primary" onClick={onClose}>
-					{__('Close', 'code-previewer')}
+					{__('Close', 'code-previewer-highlighting-block')}
 				</Button>
 			</div>
 		</Modal>
