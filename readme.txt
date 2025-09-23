@@ -12,6 +12,13 @@ Example block scaffolded with Create Block tool.
 
 A wordpress plugin for previewing code snippets with syntax highlighting.
 
+== Source Code ==
+
+This plugin includes human-readable, non-compiled source code in the `src/` directory. Compiled assets that WordPress loads are in the `build/` directory.
+
+Full source repository and development instructions:
+https://github.com/CoulKe/Code-Previewer-Highlighting-Block
+
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/code-previewer-highlighting-block` directory, or install the plugin through the WordPress plugins screen directly.
@@ -59,3 +66,11 @@ Yes, the plugin includes various themes and customization options in the block s
 * **Responsive Design** - Works perfectly on desktop and mobile devices
 * **WordPress Block Editor** - Native Gutenberg block integration
 * **Easy to Use** - Simple drag-and-drop interface in the block editor
+
+== Third-Party Libraries ==
+
+This plugin uses the following open-source libraries:
+
+* CodeMirror 6 – MIT License
+  https://codemirror.net/
+  https://github.com/codemirror/dev
