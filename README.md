@@ -12,7 +12,7 @@ A powerful WordPress block plugin that provides advanced code editing and syntax
 
 ### Syntax Highlighting
 - **10+ Languages**: JavaScript, TypeScript, HTML, CSS, JSON, PHP, Python, XML, SQL, Markdown
-- **Advanced Themes**: Light, Dark, and Cobalt themes
+- **Advanced Themes**: Light and Dark themes
 - **Line Highlighting**: Highlight specific lines for emphasis
 - **Auto-completion**: Smart bracket and tag closing
 
@@ -150,7 +150,7 @@ code-previewer/
 ## Configuration Options
 
 ### Editor Settings
-- Theme selection (Light, Dark, Cobalt)
+- Theme selection (Light, Dark)
 - Line number display
 - Word wrapping
 - Auto-close tags and brackets

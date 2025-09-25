@@ -58,7 +58,7 @@ Yes, the plugin includes various themes and customization options in the block s
 
 * **Syntax Highlighting** - Beautiful syntax highlighting for 10+ programming languages
 * **Copy to Clipboard** - One-click code copying functionality
-* **Multiple Themes** - Light, Dark, and Cobalt themes to match your site
+* **Multiple Themes** - Light and Dark themes to match your site
 * **Line Numbers** - Optional line numbering for better code readability
 * **Auto-Detection** - Automatic language detection based on file extensions
 * **Customizable Settings** - Adjustable tab size, word wrap, and editor behavior

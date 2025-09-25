@@ -19,7 +19,6 @@ export const getLanguageOptions = (__) => [
 export const getThemeOptions = (__) => [
 	{ label: __('Light', 'code-previewer-highlighting-block'), value: 'light' },
 	{ label: __('Dark', 'code-previewer-highlighting-block'), value: 'dark' },
-	{ label: __('Cobalt', 'code-previewer-highlighting-block'), value: 'cobalt' }
 ];
 
 export const FILE_EXTENSION_MAP = {

@@ -47,7 +47,6 @@ function initializeCodePreviewer() {
 		const tabsContainer = document.createElement('div');
 		tabsContainer.className = 'frontend-file-tabs';
 		
-		// Add theme toggle
 		const themeToggle = document.createElement('div');
 		themeToggle.className = 'frontend-theme-toggle';
 		
@@ -58,24 +57,21 @@ function initializeCodePreviewer() {
 		const themeSelect = document.createElement('select');
 		themeSelect.className = 'theme-select';
 		
-		// Get user's preferred theme from localStorage or use admin default
 		const userThemeKey = `code-previewer-theme-${block.closest('.wp-block-code-previewer-highlighting-block-code-previewer')?.id || 'default'}`;
 		const currentTheme = localStorage.getItem(userThemeKey) || theme;
 		
 		const l10n = window.codePreviewerHighlightingBlockL10n || {};
 		
-		// Create localized theme options
 		const localizedThemeOptions = [
 			{ value: 'light', label: l10n.light || 'Light' },
-			{ value: 'dark', label: l10n.dark || 'Dark' },
-			{ value: 'cobalt', label: l10n.cobalt || 'Cobalt' }
+			{ value: 'dark', label: l10n.dark || 'Dark' }
 		];
 		
 		const themeOptions = [
 			...localizedThemeOptions,
 			{ 
 				value: theme, 
-				label: `${l10n.defaultTheme || 'Default'} (${theme === 'light' ? (l10n.light || 'Light') : theme === 'cobalt' ? (l10n.cobalt || 'Cobalt') : (l10n.dark || 'Dark')})` 
+				label: `${l10n.defaultTheme || 'Default'} (${theme === 'light' ? (l10n.light || 'Light') : (l10n.dark || 'Dark')})` 
 			}
 		];
 		
@@ -232,14 +228,11 @@ async function updateBlockTheme(block, newTheme, highlightedLines = []) {
 	
 	const updatePromises = Array.from(editorDivs).map(async (editorDiv) => {
 		if (editorDiv.cmView) {
-			// Get current content
 			const currentContent = editorDiv.cmView.state.doc.toString();
 			
-			// Get language from the file content div
 			const fileContent = editorDiv.closest('.file-content');
 			const language = fileContent ? fileContent.dataset.language : 'javascript';
 			
-			// File object for utility function
 			const file = { language };
 			
 			editorDiv.cmView.destroy();

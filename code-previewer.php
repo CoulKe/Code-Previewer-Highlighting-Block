@@ -98,7 +98,6 @@ function code_previewer_highlighting_block_localize_frontend_script() {
             'defaultTheme' => __( 'Default', 'code-previewer-highlighting-block' ),
             'light' => __( 'Light', 'code-previewer-highlighting-block' ),
             'dark' => __( 'Dark', 'code-previewer-highlighting-block' ),
-            'cobalt' => __( 'Cobalt', 'code-previewer-highlighting-block' ),
             'viewFile' => __( 'View', 'code-previewer-highlighting-block' ),
             'copyFile' => __( 'Copy', 'code-previewer-highlighting-block' ),
             'toClipboard' => __( 'to clipboard', 'code-previewer-highlighting-block' ),

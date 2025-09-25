@@ -32,11 +32,6 @@ export async function getThemeExtension(themeName) {
 				theme = githubDarkModule.githubDark;
 				themeModuleCache.set('dark', theme);
 				return theme;
-			case 'cobalt':
-				const cobaltModule = await import('thememirror');
-				theme = cobaltModule.cobalt;
-				themeModuleCache.set('cobalt', theme);
-				return theme;
 			default:
 				const fallbackModule = await import('@uiw/codemirror-theme-github');
 				theme = fallbackModule.githubDark;
@@ -65,7 +60,6 @@ export function normalizeThemeName(themeName) {
 		'github': 'dark',
 		'github-dark': 'dark',
 		'githubDark': 'dark',
-		'cobalt': 'cobalt'
 	};
 	return themeMap[themeName] || themeName;
 }
@@ -78,7 +72,6 @@ export function getAvailableThemes() {
 	return [
 		{ value: 'light', label: 'Light' },
 		{ value: 'dark', label: 'Dark' },
-		{ value: 'cobalt', label: 'Cobalt' }
 	];
 }
 
