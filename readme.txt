@@ -1,6 +1,6 @@
 === Code Previewer Highlighting Block ===
 Contributors:      luteya
-Tags:              block
+Tags:              block, code, snippets
 Tested up to:      6.8
 Stable tag:        0.1.1
 License:           GPL-2.0-or-later

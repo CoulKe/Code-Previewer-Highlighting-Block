@@ -36,3 +36,18 @@ build/
 # Ignore all .md files except README.md
 *.md
 !README.md
+
+# Translations
+*.po
+*.mo
+*.pot
+*.potx
+*.potx
+*.potx
+*.potx
+*.potx
+*.potx
+*.potx
+*.potx
+*.pot~
+*.po~

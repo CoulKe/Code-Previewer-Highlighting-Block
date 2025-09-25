@@ -34,7 +34,6 @@ const CodeEditor = ({
 		const initializeEditor = async () => {
 			setIsLoading(true);
 
-			// Destroy existing editor if it exists
 			if (viewRef.current) {
 				viewRef.current.destroy();
 				viewRef.current = null;

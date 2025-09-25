@@ -11,7 +11,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       code-previewer-highlighting-block
  *
- * @package Luteya
+ * @package Code_Previewer_Highlighting_Block
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @see https://make.wordpress.org/core/2025/03/13/more-efficient-block-type-registration-in-6-8/
  * @see https://make.wordpress.org/core/2024/10/17/new-block-type-registration-apis-to-improve-performance-in-wordpress-6-7/
  */
-function luteya_code_previewer_block_init() {
+function code_previewer_highlighting_block_init() {
 	/**
 	 * Registers the block(s) metadata from the `blocks-manifest.php` and registers the block type(s)
 	 * based on the registered block metadata.
@@ -57,23 +57,42 @@ function luteya_code_previewer_block_init() {
 		register_block_type( __DIR__ . "/build/{$block_type}" );
 	}
 }
-add_action( 'init', 'luteya_code_previewer_block_init' );
+add_action( 'init', 'code_previewer_highlighting_block_init' );
 
 /**
  * Localize frontend script with translatable strings
  */
-function luteya_code_previewer_localize_script() {
+function code_previewer_highlighting_block_localize_frontend_script() {
 	// Only localize on frontend
 	if ( is_admin() ) {
 		return;
 	}
 	
 	// Get the correct script handle for the view script
-	$script_handle = 'luteya-code-previewer-view-script';
+	// WordPress generates handles based on the block name and file path
+	$possible_handles = [
+		'code-previewer-highlighting-block-view-script',
+		'code-previewer-highlighting-block-view',
+		'code-previewer-view-script',
+		'code-previewer-view'
+	];
+	
+	$script_handle = null;
+	foreach ( $possible_handles as $handle ) {
+		if ( wp_script_is( $handle, 'registered' ) ) {
+			$script_handle = $handle;
+			break;
+		}
+	}
+	
+	// If no handle found, return early
+	if ( ! $script_handle ) {
+		return;
+	}
 	
     wp_localize_script( 
 		$script_handle, 
-		'codePreviewerL10n', 
+		'codePreviewerHighlightingBlockL10n', 
 		array(
             'themeLabel' => __( 'Theme:', 'code-previewer-highlighting-block' ),
             'defaultTheme' => __( 'Default', 'code-previewer-highlighting-block' ),
@@ -87,4 +106,90 @@ function luteya_code_previewer_localize_script() {
 		)
 	);
 }
-add_action( 'wp_enqueue_scripts', 'luteya_code_previewer_localize_script' );
+add_action( 'wp_enqueue_scripts', 'code_previewer_highlighting_block_localize_frontend_script', 20 );
+
+/**
+ * Set script translations for admin scripts
+ */
+function code_previewer_highlighting_block_set_admin_translations() {
+	// Only set translations on admin
+	if ( ! is_admin() ) {
+		return;
+	}
+	
+	// Get all registered scripts to find the correct handle
+	global $wp_scripts;
+	$possible_handles = [];
+	
+	if ( isset( $wp_scripts->registered ) ) {
+		foreach ( $wp_scripts->registered as $handle => $script ) {
+			if ( strpos( $handle, 'code-previewer-highlighting-block' ) !== false || 
+				 strpos( $handle, 'code-previewer' ) !== false || 
+				 strpos( $handle, 'code-previewer' ) !== false ) {
+				$possible_handles[] = $handle;
+			}
+		}
+	}
+	
+	// Add common patterns
+	$common_handles = [
+		'code-previewer-highlighting-block-editor-script',
+		'code-previewer-highlighting-block-editor',
+		'code-previewer-editor-script',
+		'code-previewer-editor'
+	];
+	
+	$possible_handles = array_merge( $possible_handles, $common_handles );
+	
+	// Try to set translations for each possible handle
+	foreach ( $possible_handles as $handle ) {
+		if ( wp_script_is( $handle, 'registered' ) ) {
+			wp_set_script_translations( $handle, 'code-previewer-highlighting-block' );
+		}
+	}
+}
+add_action( 'admin_enqueue_scripts', 'code_previewer_highlighting_block_set_admin_translations', 20 );
+
+/**
+ * Alternative approach: Use wp_localize_script with a more reliable method
+ */
+function code_previewer_highlighting_block_localize_admin_script() {
+	// Only localize on admin
+	if ( ! is_admin() ) {
+		return;
+	}
+	
+	// Get all registered scripts to find the correct handle
+	global $wp_scripts;
+	$possible_handles = [];
+	
+	if ( isset( $wp_scripts->registered ) ) {
+		foreach ( $wp_scripts->registered as $handle => $script ) {
+			if ( strpos( $handle, 'code-previewer-highlighting-block' ) !== false || 
+				 strpos( $handle, 'code-previewer' ) !== false || 
+				 strpos( $handle, 'code-previewer' ) !== false ) {
+				$possible_handles[] = $handle;
+			}
+		}
+	}
+	
+	// Try to localize with each possible handle
+	foreach ( $possible_handles as $handle ) {
+		if ( wp_script_is( $handle, 'registered' ) ) {
+			wp_localize_script( 
+				$handle, 
+				'codePreviewerHighlightingBlockAdminL10n', 
+				array(
+					'switchTo' => __( 'Switch to', 'code-previewer-highlighting-block' ),
+					'rename' => __( 'Rename', 'code-previewer-highlighting-block' ),
+					'remove' => __( 'Remove', 'code-previewer-highlighting-block' ),
+					'copy' => __( 'Copy', 'code-previewer-highlighting-block' ),
+					'toClipboard' => __( 'to clipboard', 'code-previewer-highlighting-block' ),
+					'addNewFile' => __( 'Add new file', 'code-previewer-highlighting-block' ),
+					'addFile' => __( 'Add File', 'code-previewer-highlighting-block' ),
+				)
+			);
+		}
+	}
+}
+add_action( 'admin_enqueue_scripts', 'code_previewer_highlighting_block_localize_admin_script', 25 );

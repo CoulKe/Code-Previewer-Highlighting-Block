@@ -5,6 +5,20 @@
 
 import { useState, useMemo, useCallback, useRef, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+
+// Debug: Check if translations are working
+console.log('MultiFileEditor: __ function available:', typeof __);
+console.log('MultiFileEditor: Test translation:', __('Test', 'code-previewer-highlighting-block'));
+console.log('MultiFileEditor: Switch to translation:', __('Switch to', 'code-previewer-highlighting-block'));
+console.log('MultiFileEditor: Rename translation:', __('Rename', 'code-previewer-highlighting-block'));
+console.log('MultiFileEditor: AdminL10n available:', window.codePreviewerHighlightingBlockAdminL10n);
+
+// Helper function to get translations with fallback
+const getTranslation = (key, fallback) => {
+	const l10n = window.codePreviewerHighlightingBlockAdminL10n || {};
+	return l10n[key] || fallback;
+};
+
 import CodeEditor from './CodeEditor';
 import { getLanguageOptions } from '../utils/constants';
 import { copyFileCode } from '../utils/copyUtils';
@@ -133,14 +147,14 @@ export default function MultiFileEditor({
 								<button
 									className="tab-button"
 									onClick={() => onActiveFileChange(index)}
-									title={`Switch to ${file.name}`}
+									title={getTranslation('switchTo', __('Switch to', 'code-previewer-highlighting-block')) + ` ${file.name}`}
 								>
 									{file.name}
 								</button>
 								<button
 									className="edit-filename-button"
 									onClick={() => startEditingFileName(index)}
-									title={`Rename ${file.name}`}
+									title={getTranslation('rename', __('Rename', 'code-previewer-highlighting-block')) + ` ${file.name}`}
 								>
 									✏️
 								</button>
@@ -150,7 +164,7 @@ export default function MultiFileEditor({
 							<button
 								className="remove-file"
 								onClick={() => removeFile(index)}
-								title={`Remove ${file.name}`}
+								title={getTranslation('remove', __('Remove', 'code-previewer-highlighting-block')) + ` ${file.name}`}
 							>
 								×
 							</button>
@@ -158,7 +172,7 @@ export default function MultiFileEditor({
 						<button
 							className="copy-code-button"
 							onClick={(e) => copyFileCode(file.code, e.target)}
-							title={`Copy ${file.name} to clipboard`}
+							title={getTranslation('copy', __('Copy', 'code-previewer-highlighting-block')) + ` ${file.name} ` + getTranslation('toClipboard', __('to clipboard', 'code-previewer-highlighting-block'))}
 						>
 							📋
 						</button>
@@ -182,9 +196,9 @@ export default function MultiFileEditor({
 					<button
 						onClick={addFile}
 						disabled={!newFileName.trim()}
-						title="Add new file"
+						title={getTranslation('addNewFile', __('Add new file', 'code-previewer-highlighting-block'))}
 					>
-						+ Add File
+						+ {getTranslation('addFile', __('Add File', 'code-previewer-highlighting-block'))}
 					</button>
 				</div>
 			</div>

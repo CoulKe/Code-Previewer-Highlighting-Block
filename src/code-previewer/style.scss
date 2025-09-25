@@ -2,7 +2,7 @@
  * Frontend and editor styles for Code Previewer block
  */
 
-.wp-block-luteya-code-previewer {
+.wp-block-code-previewer-highlighting-block-code-previewer {
 	margin: 1.5em 0;
 	
 	.code-previewer-wrapper {
@@ -233,7 +233,7 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
-	.wp-block-luteya-code-previewer {
+	.wp-block-code-previewer-highlighting-block-code-previewer {
 		.code-previewer-wrapper {
 			.code-previewer-header {
 				padding: 6px 8px;

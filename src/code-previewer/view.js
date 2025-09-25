@@ -7,7 +7,7 @@ import { EditorView, basicSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { indentUnit } from '@codemirror/language';
 import { getLanguageExtension } from './utils/languageLoader';
-import { getThemeExtension, getAvailableThemes } from './utils/themeLoader';
+import { getThemeExtension } from './utils/themeLoader';
 import { copyFileCode } from './utils/copyUtils';
 import { createLineHighlightExtension } from './utils/highlightUtils';
 import { createSimpleAutoHeight } from './utils/autoHeight';
@@ -31,7 +31,7 @@ function initializeCodePreviewer() {
 		try {
 			files = JSON.parse(filesData);
 		} catch (e) {
-			const l10n = window.codePreviewerL10n || {};
+			const l10n = window.codePreviewerHighlightingBlockL10n || {};
 			block.innerHTML = `
 				<div class="code-previewer-error">
 					<div class="error-content">
@@ -53,18 +53,26 @@ function initializeCodePreviewer() {
 		
 		const themeLabel = document.createElement('span');
 		themeLabel.className = 'theme-label';
-		themeLabel.textContent = window.codePreviewerL10n?.themeLabel || 'Theme:';
+		themeLabel.textContent = window.codePreviewerHighlightingBlockL10n?.themeLabel || 'Theme:';
 		
 		const themeSelect = document.createElement('select');
 		themeSelect.className = 'theme-select';
 		
 		// Get user's preferred theme from localStorage or use admin default
-		const userThemeKey = `code-previewer-theme-${block.closest('.wp-block-luteya-code-previewer')?.id || 'default'}`;
+		const userThemeKey = `code-previewer-theme-${block.closest('.wp-block-code-previewer-highlighting-block-code-previewer')?.id || 'default'}`;
 		const currentTheme = localStorage.getItem(userThemeKey) || theme;
 		
-		const l10n = window.codePreviewerL10n || {};
+		const l10n = window.codePreviewerHighlightingBlockL10n || {};
+		
+		// Create localized theme options
+		const localizedThemeOptions = [
+			{ value: 'light', label: l10n.light || 'Light' },
+			{ value: 'dark', label: l10n.dark || 'Dark' },
+			{ value: 'cobalt', label: l10n.cobalt || 'Cobalt' }
+		];
+		
 		const themeOptions = [
-			...getAvailableThemes(),
+			...localizedThemeOptions,
 			{ 
 				value: theme, 
 				label: `${l10n.defaultTheme || 'Default'} (${theme === 'light' ? (l10n.light || 'Light') : theme === 'cobalt' ? (l10n.cobalt || 'Cobalt') : (l10n.dark || 'Dark')})` 
@@ -106,7 +114,8 @@ function initializeCodePreviewer() {
 			const copyButton = document.createElement('button');
 			copyButton.className = 'copy-code-button';
 			copyButton.innerHTML = '📋';
-			copyButton.setAttribute('title', `${l10n.copyFile || 'Copy'} ${file.name} ${l10n.toClipboard || 'to clipboard'}`);
+			const copyTitle = `${l10n.copyFile || 'Copy'} ${file.name} ${l10n.toClipboard || 'to clipboard'}`;
+			copyButton.setAttribute('title', copyTitle);
 			copyButton.onclick = () => copyFileCode(file.code, copyButton);
 			
 			tabWrapper.appendChild(tab);
@@ -147,6 +156,9 @@ function initializeCodePreviewer() {
 
 			const copyButton = fileContent.querySelector('.copy-code-button');
 			if (copyButton) {
+				// Localize the pre-rendered header copy button tooltip
+				const localizedTitle = `${l10n.copyFile || 'Copy'} ${file.name} ${l10n.toClipboard || 'to clipboard'}`;
+				copyButton.setAttribute('title', localizedTitle);
 				copyButton.onclick = () => copyFileCode(file.code, copyButton);
 			}
 		});
