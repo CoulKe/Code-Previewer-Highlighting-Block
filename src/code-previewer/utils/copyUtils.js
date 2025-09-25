@@ -16,16 +16,18 @@ export function copyToClipboard(text, button, successText = '✓', errorText = '
 	
 	if (navigator.clipboard && navigator.clipboard.writeText) {
 		navigator.clipboard.writeText(text).then(() => {
-			button.innerHTML = successText;
+			button.innerHTML = `<span class="copy-icon">${successText}</span>`;
 			button.classList.add('copied');
 			setTimeout(() => {
 				button.innerHTML = originalContent;
 				button.classList.remove('copied');
 			}, timeout);
 		}).catch((err) => {
-			button.innerHTML = errorText;
+			button.innerHTML = `<span class="copy-icon">${errorText}</span>`;
+			button.classList.add('error');
 			setTimeout(() => {
 				button.innerHTML = originalContent;
+				button.classList.remove('error');
 			}, timeout);
 		});
 	} else {
@@ -36,16 +38,18 @@ export function copyToClipboard(text, button, successText = '✓', errorText = '
 		textArea.select();
 		try {
 			document.execCommand('copy');
-			button.innerHTML = successText;
+			button.innerHTML = `<span class="copy-icon">${successText}</span>`;
 			button.classList.add('copied');
 			setTimeout(() => {
 				button.innerHTML = originalContent;
 				button.classList.remove('copied');
 			}, timeout);
 		} catch (err) {
-			button.innerHTML = errorText;
+			button.innerHTML = `<span class="copy-icon">${errorText}</span>`;
+			button.classList.add('error');
 			setTimeout(() => {
 				button.innerHTML = originalContent;
+				button.classList.remove('error');
 			}, timeout);
 		}
 		document.body.removeChild(textArea);
