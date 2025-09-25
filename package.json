@@ -38,8 +38,7 @@
 		"@codemirror/view": "^6.38.2",
 		"@uiw/codemirror-theme-bbedit": "^4.25.1",
 		"@uiw/codemirror-theme-github": "^4.25.1",
-		"codemirror": "^6.0.2",
-		"thememirror": "^2.0.1"
+		"codemirror": "^6.0.2"
 	},
 	"engines": {
 		"node": ">=20"
