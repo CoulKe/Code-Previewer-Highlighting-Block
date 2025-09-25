@@ -16,15 +16,12 @@ export function createLineHighlightExtension(highlightedLines = []) {
 		return [];
 	}
 
-	// Convert 1-indexed line numbers to 0-indexed
 	const linesToHighlight = highlightedLines.map(line => line - 1);
 
-	// Line highlight marker
 	const lineHighlightMark = Decoration.line({
 		class: 'cm-line-highlighted'
 	});
 
-	// Plugin that applies highlighting
 	const lineHighlightPlugin = ViewPlugin.fromClass(class {
 		constructor(view) {
 			this.decorations = this.buildDecorations(view);

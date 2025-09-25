@@ -8,12 +8,9 @@
  */
 const languageModuleCache = new Map();
 
-// Get language extension with lazy loading
 export async function getLanguageExtension(lang) {
-	// Normalize language name
 	const normalizedLang = normalizeLanguage(lang);
 	
-	// Check cache first
 	if (languageModuleCache.has(normalizedLang)) {
 		const module = languageModuleCache.get(normalizedLang);
 		return module();

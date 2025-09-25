@@ -1,9 +1,8 @@
 /**
- * Common constants for Code Previewer
+ * Common constants for Code Previewer Highlighting Block
  * Centralized language and theme options
  */
 
-// Language options with internationalization support
 export const getLanguageOptions = (__) => [
 	{ label: __('JavaScript', 'code-previewer-highlighting-block'), value: 'javascript' },
 	{ label: __('TypeScript', 'code-previewer-highlighting-block'), value: 'typescript' },
@@ -17,14 +16,12 @@ export const getLanguageOptions = (__) => [
 	{ label: __('Markdown', 'code-previewer-highlighting-block'), value: 'markdown' }
 ];
 
-// Theme options with internationalization support
 export const getThemeOptions = (__) => [
 	{ label: __('Light', 'code-previewer-highlighting-block'), value: 'light' },
 	{ label: __('Dark', 'code-previewer-highlighting-block'), value: 'dark' },
 	{ label: __('Cobalt', 'code-previewer-highlighting-block'), value: 'cobalt' }
 ];
 
-// File extension to language mapping
 export const FILE_EXTENSION_MAP = {
 	'js': 'javascript',
 	'jsx': 'javascript',
@@ -43,7 +40,6 @@ export const FILE_EXTENSION_MAP = {
 	'md': 'markdown'
 };
 
-// Default settings
 export const DEFAULT_SETTINGS = {
 	theme: 'dark',
 	showLineNumbers: true,
