@@ -24,6 +24,7 @@ function initializeCodePreviewer() {
 		const activeFileIndex = 0;
 		const theme = block.dataset.theme || 'dark';
 		const highlightedLines = JSON.parse(block.dataset.highlightedLines || '[]');
+		const isMultiFile = block.dataset.isMultiFile !== 'false';
 		
 		if (!filesData) return;
 		
@@ -88,36 +89,53 @@ function initializeCodePreviewer() {
 		themeSelect.addEventListener('change', async (e) => {
 			const newTheme = e.target.value;
 			localStorage.setItem(userThemeKey, newTheme);
-			await updateBlockTheme(block, newTheme, highlightedLines);
+			
+			// Update all blocks on the page with the new theme
+			const allBlocks = document.querySelectorAll('.code-previewer-wrapper.frontend');
+			const updatePromises = Array.from(allBlocks).map(async (otherBlock) => {
+				const otherHighlightedLines = JSON.parse(otherBlock.dataset.highlightedLines || '[]');
+				await updateBlockTheme(otherBlock, newTheme, otherHighlightedLines);
+			});
+			
+			// Update all theme selectors to reflect the new selection
+			const allThemeSelects = document.querySelectorAll('.code-previewer-wrapper.frontend .theme-select');
+			allThemeSelects.forEach(select => {
+				select.value = newTheme;
+			});
+			
+			await Promise.all(updatePromises);
 		});
 		
 		themeToggle.appendChild(themeLabel);
 		themeToggle.appendChild(themeSelect);
 		tabsContainer.appendChild(themeToggle);
 		
-		files.forEach((file, index) => {
-			const tabWrapper = document.createElement('div');
-			tabWrapper.className = 'frontend-tab-wrapper';
-			
-			const tab = document.createElement('button');
-			const isActive = index === activeFileIndex;
+		// Only show file tabs in multi-file mode
+		if (isMultiFile) {
+			files.forEach((file, index) => {
+				const tabWrapper = document.createElement('div');
+				tabWrapper.className = 'frontend-tab-wrapper';
+				
+				const tab = document.createElement('button');
+				const isActive = index === activeFileIndex;
 
-			tab.className = `frontend-file-tab ${isActive ? 'active' : ''}`;
-			tab.textContent = file.name;
-			tab.onclick = () => switchFile(block, index);
-			tab.setAttribute('title', `${l10n.viewFile || 'View'} ${file.name}`);
-			
-			const copyButton = document.createElement('button');
-			copyButton.className = 'copy-code-button';
-			copyButton.innerHTML = '📋';
-			const copyTitle = `${l10n.copyFile || 'Copy'} ${file.name} ${l10n.toClipboard || 'to clipboard'}`;
-			copyButton.setAttribute('title', copyTitle);
-			copyButton.onclick = () => copyFileCode(file.code, copyButton);
-			
-			tabWrapper.appendChild(tab);
-			tabWrapper.appendChild(copyButton);
-			tabsContainer.appendChild(tabWrapper);
-		});
+				tab.className = `frontend-file-tab ${isActive ? 'active' : ''}`;
+				tab.textContent = file.name;
+				tab.onclick = () => switchFile(block, index);
+				tab.setAttribute('title', `${l10n.viewFile || 'View'} ${file.name}`);
+				
+				const copyButton = document.createElement('button');
+				copyButton.className = 'copy-code-button';
+				copyButton.innerHTML = '📋';
+				const copyTitle = `${l10n.copyFile || 'Copy'} ${file.name} ${l10n.toClipboard || 'to clipboard'}`;
+				copyButton.setAttribute('title', copyTitle);
+				copyButton.onclick = () => copyFileCode(file.code, copyButton);
+				
+				tabWrapper.appendChild(tab);
+				tabWrapper.appendChild(copyButton);
+				tabsContainer.appendChild(tabWrapper);
+			});
+		}
 		
 		// Insert tabs before the file contents
 		block.insertBefore(tabsContainer, block.firstChild);
@@ -219,15 +237,38 @@ async function createEditorExtensions(file, block, theme, highlightedLines = [])
  * @param {Array<number>} highlightedLines - The highlighted lines
  */
 async function updateBlockTheme(block, newTheme, highlightedLines = []) {
-	// Get highlightedLines from block data if not provided
 	if (highlightedLines.length === 0) {
 		highlightedLines = JSON.parse(block.dataset.highlightedLines || '[]');
 	}
 	
 	const editorDivs = block.querySelectorAll('.code-previewer-editor');
 	
+	// Loading overlay to prevent layout shift
+	const loadingOverlay = document.createElement('div');
+	loadingOverlay.className = 'theme-loading-overlay';
+	loadingOverlay.innerHTML = '<div class="theme-loading-spinner"></div>';
+	loadingOverlay.style.cssText = `
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(255, 255, 255, 0.8);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 10;
+	`;
+	
 	const updatePromises = Array.from(editorDivs).map(async (editorDiv) => {
 		if (editorDiv.cmView) {
+			// Store current dimensions to prevent layout shift
+			const currentHeight = editorDiv.offsetHeight;
+			const currentWidth = editorDiv.offsetWidth;
+			
+			editorDiv.style.position = 'relative';
+			editorDiv.appendChild(loadingOverlay);
+			
 			const currentContent = editorDiv.cmView.state.doc.toString();
 			
 			const fileContent = editorDiv.closest('.file-content');
@@ -236,6 +277,10 @@ async function updateBlockTheme(block, newTheme, highlightedLines = []) {
 			const file = { language };
 			
 			editorDiv.cmView.destroy();
+			
+			// Maintain dimensions during recreation
+			editorDiv.style.height = currentHeight + 'px';
+			editorDiv.style.width = currentWidth + 'px';
 			
 			const extensions = await createEditorExtensions(file, block, newTheme, highlightedLines);
 			
@@ -250,6 +295,15 @@ async function updateBlockTheme(block, newTheme, highlightedLines = []) {
 			});
 			
 			editorDiv.cmView = editorView;
+			
+			// Remove loading overlay
+			if (editorDiv.contains(loadingOverlay)) {
+				editorDiv.removeChild(loadingOverlay);
+			}
+			
+			// Restore auto height
+			editorDiv.style.height = '';
+			editorDiv.style.width = '';
 		}
 	});
 	

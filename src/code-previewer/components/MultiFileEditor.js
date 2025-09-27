@@ -3,24 +3,18 @@
  * Handles multiple code files with tabbed interface
  */
 
-import { useState, useMemo, useCallback, useRef, useEffect } from '@wordpress/element';
+import { useState, useCallback, useRef, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-// Debug: Check if translations are working
-console.log('MultiFileEditor: __ function available:', typeof __);
-console.log('MultiFileEditor: Test translation:', __('Test', 'code-previewer-highlighting-block'));
-console.log('MultiFileEditor: Switch to translation:', __('Switch to', 'code-previewer-highlighting-block'));
-console.log('MultiFileEditor: Rename translation:', __('Rename', 'code-previewer-highlighting-block'));
-console.log('MultiFileEditor: AdminL10n available:', window.codePreviewerHighlightingBlockAdminL10n);
-
-// Helper function to get translations with fallback
+/**
+ * Helper function to get translations with fallback
+ */
 const getTranslation = (key, fallback) => {
 	const l10n = window.codePreviewerHighlightingBlockAdminL10n || {};
 	return l10n[key] || fallback;
 };
 
 import CodeEditor from './CodeEditor';
-import { getLanguageOptions } from '../utils/constants';
 import { copyFileCode } from '../utils/copyUtils';
 import { normalizeLanguage } from '../utils/languageLoader';
 
@@ -49,6 +43,7 @@ export default function MultiFileEditor({
 	}, []);
 
 	const addFile = useCallback(() => {
+		// In multi-file mode, file name is mandatory
 		if (!newFileName.trim()) return;
 		
 		const language = getLanguageFromFileName(newFileName);

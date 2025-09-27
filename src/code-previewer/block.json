@@ -50,6 +50,10 @@
 		"maxHeight": {
 			"type": "number",
 			"default": 400
+		},
+		"isMultiFile": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"supports": {

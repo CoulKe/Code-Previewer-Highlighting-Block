@@ -25,7 +25,8 @@ export default function save({ attributes }) {
 		tabSize,
 		useSpaces,
 		highlightedLines,
-		maxHeight
+		maxHeight,
+		isMultiFile = true
 	} = attributes;
 	
 	const blockProps = useBlockProps.save({
@@ -45,6 +46,7 @@ export default function save({ attributes }) {
 				data-use-spaces={useSpaces}
 				data-highlighted-lines={JSON.stringify(highlightedLines)}
 				data-max-height={maxHeight}
+				data-is-multi-file={isMultiFile}
 			>
 				{files.map((file, index) => (
 					<div 
@@ -54,10 +56,11 @@ export default function save({ attributes }) {
 						data-language={file.language}
 					>
 						<div className="code-previewer-header">
-							<span className="code-previewer-language">{file.name}</span>
+							{isMultiFile && <span className="code-previewer-language">{file.name}</span>}
+							{!isMultiFile && file.name && file.name.trim() && <span className="code-previewer-language">{file.name}</span>}
 							<button 
 								className="copy-code-button" 
-								title={`Copy ${file.name} to clipboard`}
+								title={`Copy ${isMultiFile ? file.name : (file.name && file.name.trim() ? file.name : file.language)} to clipboard`}
 								data-file-index={index}
 							>
 								📋 Copy

@@ -11,8 +11,8 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { 
-	useBlockProps, 
+import {
+	useBlockProps,
 	InspectorControls,
 	BlockControls
 } from '@wordpress/block-editor';
@@ -35,6 +35,7 @@ import {
 import './editor.scss';
 
 import MultiFileEditor from './components/MultiFileEditor';
+import SingleFileEditor from './components/SingleFileEditor';
 import SettingsModal from './components/SettingsModal';
 import ErrorBoundary from './components/ErrorBoundary';
 
@@ -47,16 +48,17 @@ import ErrorBoundary from './components/ErrorBoundary';
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { 
-		files, 
-		activeFileIndex, 
+	const {
+		files,
+		activeFileIndex,
 		theme,
-		showLineNumbers, 
+		showLineNumbers,
 		wordWrap,
 		tabSize,
 		useSpaces,
 		highlightedLines,
-		maxHeight
+		maxHeight,
+		isMultiFile = true
 	} = attributes;
 
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -85,6 +87,39 @@ export default function Edit({ attributes, setAttributes }) {
 		});
 	}, [setAttributes]);
 
+	const handleSingleFileCodeChange = useCallback((newCode) => {
+		if (!isMultiFile && files.length > 0) {
+			const updatedFiles = [...files];
+			updatedFiles[0] = {
+				...updatedFiles[0],
+				code: newCode
+			};
+			setAttributes({ files: updatedFiles });
+		}
+	}, [isMultiFile, files, setAttributes]);
+
+	const handleSingleFileLanguageChange = useCallback((newLanguage) => {
+		if (!isMultiFile && files.length > 0) {
+			const updatedFiles = [...files];
+			updatedFiles[0] = {
+				...updatedFiles[0],
+				language: newLanguage
+			};
+			setAttributes({ files: updatedFiles });
+		}
+	}, [isMultiFile, files, setAttributes]);
+
+	const handleSingleFileNameChange = useCallback((newFileName) => {
+		if (!isMultiFile && files.length > 0) {
+			const updatedFiles = [...files];
+			updatedFiles[0] = {
+				...updatedFiles[0],
+				name: newFileName
+			};
+			setAttributes({ files: updatedFiles });
+		}
+	}, [isMultiFile, files, setAttributes]);
+
 
 
 	const currentSettings = useMemo(() => ({
@@ -99,17 +134,46 @@ export default function Edit({ attributes, setAttributes }) {
 
 	return (
 		<div {...blockProps}>
-		<BlockControls>
-			<ToolbarGroup>
-				<ToolbarButton
-					icon="admin-generic"
-					label={__('Settings', 'code-previewer-highlighting-block')}
-					onClick={() => setIsSettingsOpen(true)}
-				/>
-			</ToolbarGroup>
-		</BlockControls>
+			<BlockControls>
+				<ToolbarGroup>
+					<ToolbarButton
+						icon="admin-generic"
+						label={__('Settings', 'code-previewer-highlighting-block')}
+						onClick={() => setIsSettingsOpen(true)}
+					/>
+				</ToolbarGroup>
+			</BlockControls>
 
 			<InspectorControls>
+				<PanelBody title={__('File Mode', 'code-previewer-highlighting-block')} initialOpen={true}>
+					<ToggleControl
+						label={__('Multi-file Mode', 'code-previewer-highlighting-block')}
+						checked={isMultiFile}
+						onChange={(newIsMultiFile) => {
+							setAttributes({ isMultiFile: newIsMultiFile });
+							// If switching to single file mode, ensure we have at least one file
+							if (!newIsMultiFile) {
+								if (files.length === 0) {
+									setAttributes({
+										files: [{ name: '', language: 'javascript', code: '' }],
+										activeFileIndex: 0
+									});
+								} else {
+									// Clear default file name when switching to single-file mode
+									const updatedFiles = [...files];
+									if (updatedFiles[0] && updatedFiles[0].name === 'index.js') {
+										updatedFiles[0] = { ...updatedFiles[0], name: '' };
+										setAttributes({ files: updatedFiles });
+									}
+								}
+							}
+						}}
+						help={isMultiFile ?
+							__('File names are required for each file', 'code-previewer-highlighting-block') :
+							__('Language can be changed while typing', 'code-previewer-highlighting-block')
+						}
+					/>
+				</PanelBody>
 				<PanelBody title={__('Files', 'code-previewer-highlighting-block')} initialOpen={true}>
 					<p>{__('Files:', 'code-previewer-highlighting-block')} {files.length}</p>
 					<p>{__('Active:', 'code-previewer-highlighting-block')} {files[activeFileIndex]?.name || 'None'}</p>
@@ -130,16 +194,29 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<div className="code-previewer-wrapper">
 				<ErrorBoundary showErrorDetails={false}>
-					<MultiFileEditor
-						files={files}
-						activeFileIndex={activeFileIndex}
-						theme={theme}
-						showLineNumbers={showLineNumbers}
-						highlightedLines={highlightedLines}
-						maxHeight={maxHeight}
-						onFilesChange={handleFilesChange}
-						onActiveFileChange={handleActiveFileChange}
-					/>
+					{isMultiFile ? (
+						<MultiFileEditor
+							files={files}
+							activeFileIndex={activeFileIndex}
+							theme={theme}
+							showLineNumbers={showLineNumbers}
+							highlightedLines={highlightedLines}
+							maxHeight={maxHeight}
+							onFilesChange={handleFilesChange}
+							onActiveFileChange={handleActiveFileChange}
+						/>
+					) : (
+						<SingleFileEditor
+							file={files[0] || { name: '', language: 'javascript', code: '' }}
+							theme={theme}
+							showLineNumbers={showLineNumbers}
+							highlightedLines={highlightedLines}
+							maxHeight={maxHeight}
+							onCodeChange={handleSingleFileCodeChange}
+							onLanguageChange={handleSingleFileLanguageChange}
+							onFileNameChange={handleSingleFileNameChange}
+						/>
+					)}
 				</ErrorBoundary>
 			</div>
 

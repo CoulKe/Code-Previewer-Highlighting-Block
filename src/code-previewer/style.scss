@@ -23,6 +23,14 @@
 			justify-content: space-between;
 			align-items: center;
 			
+			&:has(.code-previewer-language) {
+				justify-content: space-between;
+			}
+			
+			&:not(:has(.code-previewer-language)) {
+				justify-content: flex-end;
+			}
+			
 			.code-previewer-language {
 				display: inline-block;
 				background: #007cba;
@@ -326,4 +334,21 @@
 	100% {
 		transform: scale(1);
 	}
+}
+
+/* Theme loading overlay */
+.theme-loading-overlay {
+	.theme-loading-spinner {
+		width: 20px;
+		height: 20px;
+		border: 2px solid #f3f3f3;
+		border-top: 2px solid #007cba;
+		border-radius: 50%;
+		animation: themeSpin 1s linear infinite;
+	}
+}
+
+@keyframes themeSpin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
