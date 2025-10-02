@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Code Previewer Highlighting Block
  * Description:       A wordpress plugin for previewing code snippets with syntax highlighting.
- * Version:           0.1.3
+ * Version:           0.1.4
  * Author:            Coulston Luteya
  * Author URI:        https://luteya.com
  * Plugin URI:        https://github.com/CoulKe/Code-Previewer-Highlighting-Block
