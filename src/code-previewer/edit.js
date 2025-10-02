@@ -5,6 +5,9 @@
  */
 import { __ } from '@wordpress/i18n';
 
+// Get localized strings from PHP
+const { codePreviewerHighlightingBlockAdminL10n = {} } = window;
+
 /**
  * React hook that is used to mark the block wrapper element.
  * It provides all the necessary props like the class name.
@@ -138,16 +141,16 @@ export default function Edit({ attributes, setAttributes }) {
 				<ToolbarGroup>
 					<ToolbarButton
 						icon="admin-generic"
-						label={__('Settings', 'code-previewer-highlighting-block')}
+						label={codePreviewerHighlightingBlockAdminL10n.settings || __('Settings', 'code-previewer-highlighting-block')}
 						onClick={() => setIsSettingsOpen(true)}
 					/>
 				</ToolbarGroup>
 			</BlockControls>
 
 			<InspectorControls>
-				<PanelBody title={__('File Mode', 'code-previewer-highlighting-block')} initialOpen={true}>
+				<PanelBody title={codePreviewerHighlightingBlockAdminL10n.fileMode || __('File Mode', 'code-previewer-highlighting-block')} initialOpen={true}>
 					<ToggleControl
-						label={__('Multi-file Mode', 'code-previewer-highlighting-block')}
+						label={codePreviewerHighlightingBlockAdminL10n.multiFileMode || __('Multi-file Mode', 'code-previewer-highlighting-block')}
 						checked={isMultiFile}
 						onChange={(newIsMultiFile) => {
 							setAttributes({ isMultiFile: newIsMultiFile });
@@ -169,23 +172,23 @@ export default function Edit({ attributes, setAttributes }) {
 							}
 						}}
 						help={isMultiFile ?
-							__('File names are required for each file', 'code-previewer-highlighting-block') :
-							__('Language can be changed while typing', 'code-previewer-highlighting-block')
+							(codePreviewerHighlightingBlockAdminL10n.fileNamesAreRequired || __('File names are required for each file', 'code-previewer-highlighting-block')) :
+							''
 						}
 					/>
 				</PanelBody>
-				<PanelBody title={__('Files', 'code-previewer-highlighting-block')} initialOpen={true}>
-					<p>{__('Files:', 'code-previewer-highlighting-block')} {files.length}</p>
-					<p>{__('Active:', 'code-previewer-highlighting-block')} {files[activeFileIndex]?.name || 'None'}</p>
+				<PanelBody title={codePreviewerHighlightingBlockAdminL10n.files || __('Files', 'code-previewer-highlighting-block')} initialOpen={true}>
+					<p>{codePreviewerHighlightingBlockAdminL10n.files || __('Files:', 'code-previewer-highlighting-block')} {files.length}</p>
+					<p>{codePreviewerHighlightingBlockAdminL10n.active || __('Active:', 'code-previewer-highlighting-block')} {files[activeFileIndex]?.name || (codePreviewerHighlightingBlockAdminL10n.none || __('None', 'code-previewer-highlighting-block'))}</p>
 				</PanelBody>
-				<PanelBody title={__('Basic Settings', 'code-previewer-highlighting-block')} initialOpen={false}>
+				<PanelBody title={codePreviewerHighlightingBlockAdminL10n.basicSettings || __('Basic Settings', 'code-previewer-highlighting-block')} initialOpen={false}>
 					<ToggleControl
-						label={__('Show Line Numbers', 'code-previewer-highlighting-block')}
+						label={codePreviewerHighlightingBlockAdminL10n.showLineNumbers || __('Show Line Numbers', 'code-previewer-highlighting-block')}
 						checked={showLineNumbers}
 						onChange={(newShowLineNumbers) => setAttributes({ showLineNumbers: newShowLineNumbers })}
 					/>
 					<ToggleControl
-						label={__('Word Wrap', 'code-previewer-highlighting-block')}
+						label={codePreviewerHighlightingBlockAdminL10n.wordWrap || __('Word Wrap', 'code-previewer-highlighting-block')}
 						checked={wordWrap}
 						onChange={(newWordWrap) => setAttributes({ wordWrap: newWordWrap })}
 					/>

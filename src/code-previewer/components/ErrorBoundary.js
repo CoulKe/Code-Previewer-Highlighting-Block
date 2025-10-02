@@ -19,13 +19,11 @@ class ErrorBoundary extends Component {
 	}
 
 	componentDidCatch(error, errorInfo) {
-		// Log error details
 		this.setState({
 			error: error,
 			errorInfo: errorInfo
 		});
 		
-		// Show WordPress admin notice if available
 		if (window.wp && window.wp.data && window.wp.data.dispatch) {
 			window.wp.data.dispatch('core/notices').createNotice('error', 
 				'Code previewer encountered an error. Please refresh the page or contact support.', 
@@ -36,7 +34,6 @@ class ErrorBoundary extends Component {
 			);
 		}
 
-		// Log to WordPress error log if available
 		if (window.wp && window.wp.hooks) {
 			window.wp.hooks.doAction('code-previewer.error', {
 				type: 'error-boundary',
@@ -49,7 +46,6 @@ class ErrorBoundary extends Component {
 
 	render() {
 		if (this.state.hasError) {
-			// Fallback UI
 			return (
 				<div className="code-previewer-error-boundary">
 					<div className="error-content">
@@ -134,7 +130,6 @@ class ErrorBoundary extends Component {
 			);
 		}
 
-		// If no error, render children normally
 		return this.props.children;
 	}
 }

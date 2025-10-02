@@ -55,7 +55,7 @@ export default function MultiFileEditor({
 		
 		const updatedFiles = [...files, newFile];
 		onFilesChange(updatedFiles);
-		// Don't automatically switch to the new file, keep current active index
+		// Don't automatically switch to the new file
 		setNewFileName('');
 	}, [newFileName, files, getLanguageFromFileName, onFilesChange]);
 
@@ -65,7 +65,6 @@ export default function MultiFileEditor({
 		const updatedFiles = files.filter((_, i) => i !== index);
 		onFilesChange(updatedFiles);
 		
-		// Adjust active file index if necessary
 		if (activeFileIndex >= updatedFiles.length) {
 			onActiveFileChange(updatedFiles.length - 1);
 		} else if (activeFileIndex > index) {

@@ -17,7 +17,7 @@ function initializeCodePreviewer() {
 	const codeBlocks = document.querySelectorAll('.code-previewer-wrapper');
 	
 	codeBlocks.forEach(function(block) {
-		// Add frontend class to distinguish from admin editor
+		// Frontend class to distinguish from admin editor
 		block.classList.add('frontend');
 		
 		const filesData = block.dataset.files;
@@ -44,7 +44,7 @@ function initializeCodePreviewer() {
 			return;
 		}
 		
-		// Create file tabs
+		// File tabs
 		const tabsContainer = document.createElement('div');
 		tabsContainer.className = 'frontend-file-tabs';
 		
@@ -90,7 +90,7 @@ function initializeCodePreviewer() {
 			const newTheme = e.target.value;
 			localStorage.setItem(userThemeKey, newTheme);
 			
-			// Update all blocks on the page with the new theme
+			// Update all blocks with the new theme
 			const allBlocks = document.querySelectorAll('.code-previewer-wrapper.frontend');
 			const updatePromises = Array.from(allBlocks).map(async (otherBlock) => {
 				const otherHighlightedLines = JSON.parse(otherBlock.dataset.highlightedLines || '[]');
@@ -110,7 +110,6 @@ function initializeCodePreviewer() {
 		themeToggle.appendChild(themeSelect);
 		tabsContainer.appendChild(themeToggle);
 		
-		// Only show file tabs in multi-file mode
 		if (isMultiFile) {
 			files.forEach((file, index) => {
 				const tabWrapper = document.createElement('div');
@@ -137,7 +136,6 @@ function initializeCodePreviewer() {
 			});
 		}
 		
-		// Insert tabs before the file contents
 		block.insertBefore(tabsContainer, block.firstChild);
 		
 		// Initialize CodeMirror for each file
@@ -170,7 +168,6 @@ function initializeCodePreviewer() {
 
 			const copyButton = fileContent.querySelector('.copy-code-button');
 			if (copyButton) {
-				// Localize the pre-rendered header copy button tooltip
 				const localizedTitle = `${l10n.copyFile || 'Copy'} ${file.name} ${l10n.toClipboard || 'to clipboard'}`;
 				copyButton.setAttribute('title', localizedTitle);
 				copyButton.onclick = () => copyFileCode(file.code, copyButton);
@@ -296,12 +293,10 @@ async function updateBlockTheme(block, newTheme, highlightedLines = []) {
 			
 			editorDiv.cmView = editorView;
 			
-			// Remove loading overlay
 			if (editorDiv.contains(loadingOverlay)) {
 				editorDiv.removeChild(loadingOverlay);
 			}
 			
-			// Restore auto height
 			editorDiv.style.height = '';
 			editorDiv.style.width = '';
 		}
