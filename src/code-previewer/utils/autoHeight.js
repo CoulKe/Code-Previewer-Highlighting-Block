@@ -45,7 +45,6 @@ export function createAutoHeightExtension(options = {}) {
 			
 			this.view.dom.style.height = `${calculatedHeight}px`;
 			
-			// Also update the parent container if it exists
 			const parent = this.view.dom.parentElement;
 			if (parent && parent.classList.contains('code-previewer-editor')) {
 				parent.style.height = 'auto';

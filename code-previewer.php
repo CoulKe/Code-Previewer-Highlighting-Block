@@ -63,30 +63,13 @@ add_action( 'init', 'code_previewer_highlighting_block_init' );
  * Localize frontend script with translatable strings
  */
 function code_previewer_highlighting_block_localize_frontend_script() {
-	// Only localize on frontend
 	if ( is_admin() ) {
 		return;
 	}
 	
-	// Get the correct script handle for the view script
-	// WordPress generates handles based on the block name and file path
-	$possible_handles = [
-		'code-previewer-highlighting-block-view-script',
-		'code-previewer-highlighting-block-view',
-		'code-previewer-view-script',
-		'code-previewer-view'
-	];
+	$script_handle = 'code-previewer-highlighting-block-code-previewer-view-script';
 	
-	$script_handle = null;
-	foreach ( $possible_handles as $handle ) {
-		if ( wp_script_is( $handle, 'registered' ) ) {
-			$script_handle = $handle;
-			break;
-		}
-	}
-	
-	// If no handle found, return early
-	if ( ! $script_handle ) {
+	if ( ! wp_script_is( $script_handle, 'registered' ) ) {
 		return;
 	}
 	
@@ -108,87 +91,44 @@ function code_previewer_highlighting_block_localize_frontend_script() {
 add_action( 'wp_enqueue_scripts', 'code_previewer_highlighting_block_localize_frontend_script', 20 );
 
 /**
- * Set script translations for admin scripts
+ * Set script translations and localize admin scripts
  */
-function code_previewer_highlighting_block_set_admin_translations() {
-	// Only set translations on admin
+function code_previewer_highlighting_block_setup_admin_scripts() {
 	if ( ! is_admin() ) {
 		return;
 	}
 	
-	// Get all registered scripts to find the correct handle
-	global $wp_scripts;
-	$possible_handles = [];
+	$script_handle = 'code-previewer-highlighting-block-code-previewer-editor-script';
 	
-	if ( isset( $wp_scripts->registered ) ) {
-		foreach ( $wp_scripts->registered as $handle => $script ) {
-			if ( strpos( $handle, 'code-previewer-highlighting-block' ) !== false || 
-				 strpos( $handle, 'code-previewer' ) !== false || 
-				 strpos( $handle, 'code-previewer' ) !== false ) {
-				$possible_handles[] = $handle;
-			}
-		}
-	}
-	
-	// Add common patterns
-	$common_handles = [
-		'code-previewer-highlighting-block-editor-script',
-		'code-previewer-highlighting-block-editor',
-		'code-previewer-editor-script',
-		'code-previewer-editor'
-	];
-	
-	$possible_handles = array_merge( $possible_handles, $common_handles );
-	
-	// Try to set translations for each possible handle
-	foreach ( $possible_handles as $handle ) {
-		if ( wp_script_is( $handle, 'registered' ) ) {
-			wp_set_script_translations( $handle, 'code-previewer-highlighting-block' );
-		}
-	}
-}
-add_action( 'admin_enqueue_scripts', 'code_previewer_highlighting_block_set_admin_translations', 20 );
-
-/**
- * Alternative approach: Use wp_localize_script with a more reliable method
- */
-function code_previewer_highlighting_block_localize_admin_script() {
-	// Only localize on admin
-	if ( ! is_admin() ) {
-		return;
-	}
-	
-	// Get all registered scripts to find the correct handle
-	global $wp_scripts;
-	$possible_handles = [];
-	
-	if ( isset( $wp_scripts->registered ) ) {
-		foreach ( $wp_scripts->registered as $handle => $script ) {
-			if ( strpos( $handle, 'code-previewer-highlighting-block' ) !== false || 
-				 strpos( $handle, 'code-previewer' ) !== false || 
-				 strpos( $handle, 'code-previewer' ) !== false ) {
-				$possible_handles[] = $handle;
-			}
-		}
-	}
-	
-	// Try to localize with each possible handle
-	foreach ( $possible_handles as $handle ) {
-		if ( wp_script_is( $handle, 'registered' ) ) {
-			wp_localize_script( 
-				$handle, 
-				'codePreviewerHighlightingBlockAdminL10n', 
-				array(
-					'switchTo' => __( 'Switch to', 'code-previewer-highlighting-block' ),
-					'rename' => __( 'Rename', 'code-previewer-highlighting-block' ),
-					'remove' => __( 'Remove', 'code-previewer-highlighting-block' ),
-					'copy' => __( 'Copy', 'code-previewer-highlighting-block' ),
-					'toClipboard' => __( 'to clipboard', 'code-previewer-highlighting-block' ),
-					'addNewFile' => __( 'Add new file', 'code-previewer-highlighting-block' ),
-					'addFile' => __( 'Add File', 'code-previewer-highlighting-block' ),
-				)
-			);
-		}
+	if ( wp_script_is( $script_handle, 'registered' ) ) {
+		wp_set_script_translations( $script_handle, 'code-previewer-highlighting-block' );
+		
+		wp_localize_script( 
+			$script_handle, 
+			'codePreviewerHighlightingBlockAdminL10n', 
+			array(
+				'switchTo' => __( 'Switch to', 'code-previewer-highlighting-block' ),
+				'rename' => __( 'Rename', 'code-previewer-highlighting-block' ),
+				'remove' => __( 'Remove', 'code-previewer-highlighting-block' ),
+				'copy' => __( 'Copy', 'code-previewer-highlighting-block' ),
+				'toClipboard' => __( 'to clipboard', 'code-previewer-highlighting-block' ),
+				'addNewFile' => __( 'Add new file', 'code-previewer-highlighting-block' ),
+				'addFile' => __( 'Add File', 'code-previewer-highlighting-block' ),
+				'language' => __( 'Language:', 'code-previewer-highlighting-block' ),
+				'showFileName' => __( 'Show File Name', 'code-previewer-highlighting-block' ),
+				'showLineNumbers' => __( 'Show Line Numbers', 'code-previewer-highlighting-block' ),
+				'wordWrap' => __( 'Word Wrap', 'code-previewer-highlighting-block' ),
+				'settings' => __( 'Settings', 'code-previewer-highlighting-block' ),
+				'files' => __( 'Files:', 'code-previewer-highlighting-block' ),
+				'active' => __( 'Active:', 'code-previewer-highlighting-block' ),
+				'none' => __( 'None', 'code-previewer-highlighting-block' ),
+				'fileNamesAreRequired' => __( 'File names are required for each file', 'code-previewer-highlighting-block' ),
+				'multiFileMode' => __( 'Multi-file Mode', 'code-previewer-highlighting-block' ),
+				'singleFileMode' => __( 'Single-file Mode', 'code-previewer-highlighting-block' ),
+				'fileMode' => __( 'File Mode', 'code-previewer-highlighting-block' ),
+				'basicSettings' => __( 'Basic Settings', 'code-previewer-highlighting-block' ),
+			)
+		);
 	}
 }
-add_action( 'admin_enqueue_scripts', 'code_previewer_highlighting_block_localize_admin_script', 25 );
+add_action( 'admin_enqueue_scripts', 'code_previewer_highlighting_block_setup_admin_scripts', 20 );
