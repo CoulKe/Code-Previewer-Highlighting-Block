@@ -2,6 +2,34 @@
 
 A powerful WordPress block plugin that provides advanced code editing and syntax highlighting with multi-file support using CodeMirror 6. Perfect for developers, educators, and technical writers who need to showcase code snippets with professional syntax highlighting.
 
+## Table of Contents
+
+- **[Features](#features)**
+  - [Multi-File Editor](#multi-file-editor)
+  - [Syntax Highlighting](#syntax-highlighting)
+  - [Editor Features](#editor-features)
+  - [WordPress Integration](#wordpress-integration)
+- **[Installation](#installation)**
+- **[Usage](#usage)**
+  - [Basic Usage](#basic-usage)
+  - [Advanced Configuration](#advanced-configuration)
+  - [File Management](#file-management)
+- **[Development](#development)**
+  - [Environment Setup](#environment-setup)
+  - [Building the Plugin](#building-the-plugin)
+  - [Available Scripts](#available-scripts)
+  - [Requirements](#requirements)
+- **[Technical Details](#technical-details)**
+- **[File Structure](#file-structure)**
+- **[Supported Languages](#supported-languages)**
+- **[Configuration Options](#configuration-options)**
+  - [Editor Settings](#editor-settings)
+  - [File Management](#file-management-1)
+  - [Advanced Settings](#advanced-settings)
+- **[License](#license)**
+- **[Author](#author)**
+- **[Support](#support)**
+
 ## Features
 
 ### Multi-File Editor
@@ -60,6 +88,17 @@ A powerful WordPress block plugin that provides advanced code editing and syntax
 - **Copying**: Click the 📋 button to copy file contents
 
 ## Development
+
+### Environment Setup
+
+Create a `.env` file in the plugin directory with your local WordPress URL. This is required by development scripts.
+
+```bash
+# wp-content/plugins/code-previewer-highlighting-block/.env
+WORDPRESS_URL=http://example.local
+```
+
+If `WORDPRESS_URL` is missing, the dev script will exit with an error. Use your local site URL (e.g., `http://localhost:8000`, `http://wp.local`, etc.).
 
 ### Building the Plugin
 
