@@ -5,6 +5,7 @@
  * Version:           0.1.1
  * Author:            Coulston Luteya
  * Author URI:        https://luteya.com
+ * Plugin URI:        https://github.com/CoulKe/Code-Previewer-Highlighting-Block
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * License:           GPL-2.0-or-later
