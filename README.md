@@ -1,34 +1,38 @@
 # Code Previewer WordPress Plugin
 
-A powerful WordPress block plugin that provides advanced code editing and syntax highlighting with multi-file support using CodeMirror 6.
+A powerful WordPress block plugin that provides advanced code editing and syntax highlighting with multi-file support using CodeMirror 6. Perfect for developers, educators, and technical writers who need to showcase code snippets with professional syntax highlighting.
 
 ## Features
 
 ### Multi-File Editor
-- **Tabbed Interface**: Manage multiple code files in a single block
-- **File Management**: Add, remove, and rename files dynamically
-- **Auto-Detection**: Language detection based on file extensions
-- **Copy to Clipboard**: One-click code copying for each file
+- **Tabbed Interface**: Manage multiple code files in a single block with intuitive tab navigation
+- **File Management**: Add, remove, and rename files dynamically with real-time validation
+- **Auto-Detection**: Intelligent language detection based on file extensions
+- **Copy to Clipboard**: One-click code copying for each file with success feedback
+- **File Switching**: Seamless switching between files with preserved state
 
 ### Syntax Highlighting
 - **10+ Languages**: JavaScript, TypeScript, HTML, CSS, JSON, PHP, Python, XML, SQL, Markdown
-- **Advanced Themes**: Light and Dark themes
-- **Line Highlighting**: Highlight specific lines for emphasis
-- **Auto-completion**: Smart bracket and tag closing
+- **Advanced Themes**: Professional Light and Dark themes with ThemeMirror integration
+- **Line Highlighting**: Highlight specific lines for emphasis (like GitHub gists)
+- **Auto-completion**: Smart bracket and tag closing with intelligent indentation
+- **Language Support**: Full syntax highlighting for modern web development languages
 
 ### Editor Features
-- **Line Numbers**: Toggle line numbers on/off
-- **Word Wrap**: Configurable line wrapping
+- **Line Numbers**: Toggle line numbers on/off for better code readability
+- **Word Wrap**: Configurable line wrapping with intelligent breaking
 - **Indentation**: Customizable tab size and space/tab preferences
 - **Auto-Height**: Dynamic height adjustment with maximum height limits
-- **Error Handling**: Graceful error boundaries for robust editing
+- **Error Handling**: Graceful error boundaries for robust editing experience
+- **Settings Modal**: Advanced configuration options accessible via toolbar
 
 ### WordPress Integration
-- **Block Editor**: Full Gutenberg integration
-- **Settings Modal**: Advanced configuration options
-- **Inspector Controls**: Quick access to common settings
-- **Responsive Design**: Works perfectly on all device sizes
-- **Internationalization**: Full i18n support
+- **Block Editor**: Full Gutenberg integration with modern block API v3
+- **Settings Modal**: Comprehensive configuration options for power users
+- **Inspector Controls**: Quick access to common settings in the sidebar
+- **Responsive Design**: Works perfectly on all device sizes and orientations
+- **Internationalization**: Full i18n support with translation-ready strings
+- **Performance Optimized**: Uses blocks-manifest for faster loading in WordPress 6.7+
 
 ## Installation
 
@@ -92,12 +96,13 @@ npm run dev
 
 ## Technical Details
 
-- **Framework**: React/JSX with WordPress components
-- **Editor**: CodeMirror 6 with extensive language support
-- **Build Tool**: Webpack bundled with @wordpress/scripts
-- **Standards**: Follows WordPress coding standards
-- **Block API**: Version 3 with modern registration
-- **Performance**: Optimized with blocks-manifest for faster loading
+- **Framework**: React/JSX with WordPress components and hooks
+- **Editor**: CodeMirror 6.0.2 with extensive language support and ThemeMirror themes
+- **Build Tool**: Webpack bundled with @wordpress/scripts 30.23.0
+- **Standards**: Follows WordPress coding standards and best practices
+- **Block API**: Version 3 with modern registration and blocks-manifest optimization
+- **Performance**: Optimized with blocks-manifest for faster loading in WordPress 6.7+
+- **Node.js**: Requires Node.js 20+ for development
 
 ## File Structure
 
@@ -106,32 +111,39 @@ code-previewer/
 ├── src/
 │   └── code-previewer/
 │       ├── components/
-│       │   ├── CodeEditor.js          # Main CodeMirror wrapper
-│       │   ├── MultiFileEditor.js     # Tabbed file interface
-│       │   ├── SettingsModal.js       # Advanced settings dialog
-│       │   └── ErrorBoundary.js       # Error handling component
+│       │   ├── CodeEditor.js          # Main CodeMirror wrapper component
+│       │   ├── MultiFileEditor.js     # Tabbed file interface with state management
+│       │   ├── SingleFileEditor.js    # Single file editor component
+│       │   ├── SettingsModal.js       # Advanced settings dialog with comprehensive options
+│       │   └── ErrorBoundary.js       # Error handling component for robust editing
 │       ├── utils/
-│       │   ├── constants.js           # Language/theme options
-│       │   ├── languageLoader.js      # Dynamic language loading
-│       │   ├── themeLoader.js         # Theme management
-│       │   ├── copyUtils.js           # Clipboard functionality
-│       │   ├── highlightUtils.js      # Line highlighting
-│       │   ├── autoHeight.js          # Dynamic height calculation
-│       │   ├── bracketsLoader.js      # Auto-bracket features
-│       │   └── tagsLoader.js          # Auto-tag features
-│       ├── block.json                 # Block metadata
-│       ├── edit.js                    # Block editor component
-│       ├── save.js                    # Block save component
-│       ├── view.js                    # Frontend rendering
-│       ├── index.js                   # Block registration
-│       ├── editor.scss                # Editor styles
-│       └── style.scss                 # Frontend styles
-├── build/                             # Generated build files
-├── node_modules/                      # Dependencies
-├── patches/                           # Patch files for dependencies
-├── scripts/                           # Build scripts
-├── package.json                       # Dependencies and scripts
-└── code-previewer.php                # Main plugin file
+│       │   ├── constants.js           # Language/theme options and configuration
+│       │   ├── languageLoader.js      # Dynamic language loading with CodeMirror 6
+│       │   ├── themeLoader.js         # Theme management with ThemeMirror integration
+│       │   ├── copyUtils.js           # Clipboard functionality with user feedback
+│       │   ├── highlightUtils.js      # Line highlighting utilities
+│       │   └── autoHeight.js          # Dynamic height calculation and limits
+│       ├── block.json                 # Block metadata and configuration
+│       ├── edit.js                    # Block editor component with React hooks
+│       ├── save.js                    # Block save component for data persistence
+│       ├── view.js                    # Frontend rendering with CodeMirror initialization
+│       ├── index.js                   # Block registration and initialization
+│       ├── editor.scss                # Editor styles for admin interface
+│       └── style.scss                 # Frontend styles for public display
+├── build/                             # Generated build files and assets
+│   ├── blocks-manifest.php           # WordPress 6.7+ blocks manifest
+│   └── code-previewer/               # Compiled block assets
+├── assets/                           # Plugin assets and screenshots
+├── node_modules/                     # Dependencies and packages
+├── patches/                          # Patch files for dependency modifications
+├── scripts/                          # Build scripts and development tools
+├── package.json                      # Dependencies, scripts, and configuration
+├── package-lock.json                 # Locked dependency versions
+├── code-previewer.php               # Main plugin file with WordPress integration
+├── README.md                         # Comprehensive documentation
+├── readme.txt                        # WordPress.org repository format
+├── PLUGIN-SUMMARY.md                 # Plugin overview and capabilities
+└── FEATURE-SUGGESTIONS.md            # Future feature roadmap and suggestions
 ```
 
 ## Supported Languages
@@ -150,19 +162,28 @@ code-previewer/
 ## Configuration Options
 
 ### Editor Settings
-- Theme selection (Light, Dark)
-- Line number display
-- Word wrapping
-- Auto-close tags and brackets
-- Tab size and indentation preferences
-- Line highlighting
-- Maximum height limits
+- **Theme Selection**: Professional Light and Dark themes with ThemeMirror integration
+- **Line Numbers**: Toggle line number display for better code readability
+- **Word Wrapping**: Intelligent line wrapping with configurable behavior
+- **Auto-close Tags**: Smart bracket and tag closing for HTML, CSS, and JavaScript
+- **Indentation**: Customizable tab size and space/tab preferences
+- **Line Highlighting**: Highlight specific lines for emphasis and documentation
+- **Height Management**: Dynamic height adjustment with maximum height limits
+- **File Mode**: Switch between single-file and multi-file editing modes
 
 ### File Management
-- Dynamic file creation and deletion
-- Automatic language detection
-- File renaming capabilities
-- Copy to clipboard functionality
+- **Dynamic File Creation**: Add new files with automatic language detection
+- **File Renaming**: Inline file renaming with validation
+- **File Deletion**: Remove files with minimum file count protection
+- **Copy to Clipboard**: One-click code copying with success feedback
+- **File Switching**: Seamless tab-based file navigation
+- **Language Detection**: Automatic language detection based on file extensions
+
+### Advanced Settings
+- **Settings Modal**: Comprehensive configuration dialog accessible via toolbar
+- **Inspector Controls**: Quick access to common settings in WordPress sidebar
+- **Responsive Design**: Automatic adaptation to different screen sizes
+- **Error Handling**: Graceful error boundaries for robust editing experience
 
 ## License
 

@@ -1,16 +1,27 @@
 === Code Previewer Highlighting Block ===
 Contributors:      luteya
-Tags:              block, code, snippets
+Tags:              block, code, snippets, syntax highlighting, codemirror, multi-file, editor
 Tested up to:      6.8
 Stable tag:        0.1.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Example block scaffolded with Create Block tool.
+A powerful WordPress block plugin for advanced code editing and syntax highlighting with multi-file support.
 
 == Description ==
 
-A wordpress plugin for previewing code snippets with syntax highlighting.
+A comprehensive WordPress block plugin that provides advanced code editing and syntax highlighting with multi-file support using CodeMirror 6. Perfect for developers, educators, and technical writers who need to showcase code snippets with professional syntax highlighting.
+
+**Key Features:**
+* **Multi-File Editor** - Manage multiple code files in a single block with intuitive tab navigation
+* **10+ Programming Languages** - JavaScript, TypeScript, HTML, CSS, JSON, PHP, Python, XML, SQL, Markdown
+* **Professional Themes** - Light and Dark themes with ThemeMirror integration
+* **Advanced Settings** - Comprehensive configuration options via settings modal
+* **Copy to Clipboard** - One-click code copying for each file with success feedback
+* **Line Highlighting** - Highlight specific lines for emphasis (like GitHub gists)
+* **WordPress Integration** - Full Gutenberg integration with modern block API v3
+* **Responsive Design** - Works perfectly on all device sizes and orientations
+* **Internationalization** - Full i18n support with translation-ready strings
 
 == Source Code ==
 
@@ -34,11 +45,15 @@ Simply click the "+" button in the block editor, search for "Code Previewer High
 
 = What programming languages are supported? =
 
-The plugin currently supports 10 programming languages: JavaScript, TypeScript, HTML, CSS, JSON, PHP, Python, XML, SQL, and Markdown.
+The plugin supports 10+ programming languages: JavaScript, TypeScript, HTML, CSS, JSON, PHP, Python, XML, SQL, and Markdown. Language detection is automatic based on file extensions.
+
+= Can I manage multiple files in one block? =
+
+Yes! The plugin features a multi-file editor with tabbed interface. You can add, remove, and rename files dynamically. Each file can have different programming languages.
 
 = Can I copy the code from the preview? =
 
-Yes! Each code preview includes a copy button that allows users to easily copy the code to their clipboard.
+Yes! Each file includes a copy button that allows users to easily copy the code to their clipboard with success feedback.
 
 = Can I customize the appearance of the code preview? =
 
@@ -56,21 +71,34 @@ Yes, the plugin includes various themes and customization options in the block s
 
 == Features ==
 
-* **Syntax Highlighting** - Beautiful syntax highlighting for 10+ programming languages
-* **Copy to Clipboard** - One-click code copying functionality
-* **Multiple Themes** - Light and Dark themes to match your site
+* **Multi-File Editor** - Manage multiple code files in a single block with intuitive tab navigation
+* **Syntax Highlighting** - Professional syntax highlighting for 10+ programming languages using CodeMirror 6
+* **Copy to Clipboard** - One-click code copying functionality with success feedback for each file
+* **Professional Themes** - Light and Dark themes with ThemeMirror integration
 * **Line Numbers** - Optional line numbering for better code readability
 * **Auto-Detection** - Automatic language detection based on file extensions
-* **Customizable Settings** - Adjustable tab size, word wrap, and editor behavior
-* **Line Highlighting** - Highlight specific lines for emphasis
+* **Advanced Settings** - Comprehensive configuration options via settings modal
+* **Line Highlighting** - Highlight specific lines for emphasis (like GitHub gists)
+* **File Management** - Add, remove, and rename files dynamically with validation
+* **Word Wrap** - Intelligent line wrapping with configurable behavior
+* **Auto-close Tags** - Smart bracket and tag closing for HTML, CSS, and JavaScript
 * **Responsive Design** - Works perfectly on desktop and mobile devices
-* **WordPress Block Editor** - Native Gutenberg block integration
-* **Easy to Use** - Simple drag-and-drop interface in the block editor
+* **WordPress Integration** - Full Gutenberg integration with modern block API v3
+* **Internationalization** - Full i18n support with translation-ready strings
+* **Performance Optimized** - Uses blocks-manifest for faster loading in WordPress 6.7+
+* **Error Handling** - Graceful error boundaries for robust editing experience
 
 == Third-Party Libraries ==
 
 This plugin uses the following open-source libraries:
 
-* CodeMirror 6 – MIT License
+* **CodeMirror 6.0.2** – MIT License
   https://codemirror.net/
   https://github.com/codemirror/dev
+
+* **ThemeMirror Themes** – MIT License
+  - @uiw/codemirror-theme-github (4.25.1)
+  - @uiw/codemirror-theme-bbedit (4.25.1)
+
+* **WordPress Scripts** – GPL-2.0-or-later
+  - @wordpress/scripts (30.23.0)
