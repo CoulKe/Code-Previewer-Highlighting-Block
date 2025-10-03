@@ -173,7 +173,6 @@ code-previewer/
 │   ├── blocks-manifest.php           # WordPress 6.7+ blocks manifest
 │   └── code-previewer/               # Compiled block assets
 ├── assets/                           # Plugin assets and screenshots
-├── node_modules/                     # Dependencies and packages
 ├── patches/                          # Patch files for dependency modifications
 ├── scripts/                          # Build scripts and development tools
 ├── package.json                      # Dependencies, scripts, and configuration
@@ -181,8 +180,6 @@ code-previewer/
 ├── code-previewer.php               # Main plugin file with WordPress integration
 ├── README.md                         # Comprehensive documentation
 ├── readme.txt                        # WordPress.org repository format
-├── PLUGIN-SUMMARY.md                 # Plugin overview and capabilities
-└── FEATURE-SUGGESTIONS.md            # Future feature roadmap and suggestions
 ```
 
 ## Supported Languages
